@@ -1,5 +1,7 @@
 package io.github.coolbong.javatlv.util;
 
+import javafx.beans.value.ObservableValue;
+
 import java.util.ArrayList;
 
 /**
@@ -17,19 +19,31 @@ public class Tlv {
 
 
     public Tlv(String tag, String value) {
-        this(Hex.toBytes(tag), Hex.toBytes(value));
+        this(Hex.toBytes(tag), null, Hex.toBytes(value));
     }
 
-    public Tlv(byte[] tag, byte[] value) {
-
+    public Tlv(byte[] bTag, byte[] bValue) {
+        this(bTag, null, bValue);
     }
 
     public Tlv(byte[] tag, byte[] len,  byte[] value) {
         this.bTag = tag;
         this.bValue = value;
-        this.bLen = len;
         this.length = value.length;
         this.child = new ArrayList<Tlv>();
+
+        if (len == null) {
+            if (length > 127) {
+                this.bLen = new byte[2];
+                this.bLen[0] = (byte)0x81;
+                this.bLen[1] = (byte)length;
+            } else {
+                this.bLen = new byte[1];
+                this.bLen[0] = (byte)length;
+            }
+        } else {
+            this.bLen = len;
+        }
 
         if (isConstructed()) {
             int offset = 0;
