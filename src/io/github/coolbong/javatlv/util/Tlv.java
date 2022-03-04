@@ -1,7 +1,5 @@
 package io.github.coolbong.javatlv.util;
 
-import javafx.beans.value.ObservableValue;
-
 import java.util.ArrayList;
 
 /**
