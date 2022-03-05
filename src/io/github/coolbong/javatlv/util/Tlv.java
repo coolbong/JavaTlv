@@ -53,7 +53,7 @@ public class Tlv {
         }
     }
 
-    public String getbTag() {
+    public String getTag() {
         return Hex.toHex(bTag);
     }
 
@@ -61,7 +61,7 @@ public class Tlv {
         return length;
     }
 
-    public String value() {
+    public String getValue() {
         return Hex.toHex(bValue);
     }
 

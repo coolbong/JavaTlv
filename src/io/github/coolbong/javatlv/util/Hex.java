@@ -4,7 +4,6 @@ package io.github.coolbong.javatlv.util;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-
 public class Hex {
 
     private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
@@ -140,9 +139,7 @@ public class Hex {
 
     public static short getShort(byte[] bArray, int bOff)
             throws NullPointerException, ArrayIndexOutOfBoundsException {
-        short result = 0;
-        result = (short)(((bArray[bOff] & 0xff) << 8) | (bArray[bOff + 1] & 0xff));
-        return result;
+        return (short)(((bArray[bOff] & 0xff) << 8) | (bArray[bOff + 1] & 0xff));
     }
 
     public static int toInt(byte[] bArray) {
@@ -153,9 +150,15 @@ public class Hex {
         return Integer.parseInt(hex, 16);
     }
 
-
     public static byte[] slice(byte[] buf, int offset, int length) {
         return Arrays.copyOfRange(buf, offset, offset + length);
     }
 
+    public static String parseSw(byte[] buffer) {
+        if (buffer.length < 2) {
+            return "BAB0";
+        } else {
+            return u2(buffer, buffer.length - 2);
+        }
+    }
 }
