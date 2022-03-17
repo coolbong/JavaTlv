@@ -28,7 +28,7 @@ public class Tlv {
         this.bTag = tag;
         this.bValue = value;
         this.length = value.length;
-        this.child = new ArrayList<Tlv>();
+        this.child = new ArrayList<>();
 
         if (len == null) {
             if (length > 127) {
@@ -65,8 +65,45 @@ public class Tlv {
         return Hex.toHex(bValue);
     }
 
+    public byte[] getValueBytes() {
+        return bValue;
+    }
+
     public Tlv find(String tag) {
-        return null;
+        final String targetTag = Hex.strip(tag).toUpperCase();
+
+        Tlv targetTlv = null;
+        for (Tlv tlv : child) {
+            if (tlv.getTag().equals(targetTag)) {
+                targetTlv = tlv;
+                break;
+            }
+            if (tlv.isConstructed()) {
+                targetTlv = tlv.find(targetTag);
+                if (targetTlv != null) {
+                    break;
+                }
+            }
+        }
+
+        return targetTlv;
+    }
+
+    public ArrayList<Tlv> findAll(String tag) {
+        final String targetTag = Hex.strip(tag).toUpperCase();
+
+        ArrayList<Tlv> tlvs = new ArrayList<>();
+
+        for (Tlv tlv : child) {
+            if (tlv.getTag().equals(targetTag)) {
+                tlvs.add(tlv);
+            }
+            if (tlv.isConstructed()) {
+                ArrayList<Tlv> ret = tlv.findAll(targetTag);
+                tlvs.addAll(ret);
+            }
+        }
+        return tlvs;
     }
 
     public boolean isConstructed() {
