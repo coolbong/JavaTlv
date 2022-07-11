@@ -170,8 +170,8 @@ public class Tlv {
         byte[] bLen;
         int number_of_bytes = 0;
         if ((buf[offset] & 0x80) == 0x80) {
-            number_of_bytes = buf[offset] & 0x7F + 1;
-            length = Hex.toInt(Hex.toHex(buf, offset, number_of_bytes));
+            number_of_bytes = (buf[offset] & 0x7F) + 1;
+            length = Hex.toInt(Hex.toHex(buf, offset+1, number_of_bytes - 1));
             bLen = Hex.slice(buf, offset, number_of_bytes);
         } else {
             number_of_bytes = 1;
