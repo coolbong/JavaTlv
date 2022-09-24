@@ -61,13 +61,24 @@ public class Main {
         tlv.print();
     }
 
+    public void parse_record() {
+        Tlv tlv = null;
+        tlv = Tlv.parse("704D57139409119700015643D49126012000014000000F5F201A5041524B204A414545554E2020202020202020202F20202020209F1F183230303030202020202020202030303134303030303030309000");
+        tlv.print();
+        tlv = Tlv.parse("70675F24034912315F25032011045A0894091197000156435F3401019F0702AB008C1D9F02069F03069F1A0295055F2A029A039C019F37049F35019F34039B028E0A00000000000000001F009F0D0500000000009F0E0500000000009F0F0500000000005F280204109000");
+        tlv.print();
+        tlv = Tlv.parse("700A5F300206019F080200019000");
+        tlv.print();
+    }
+
     public static void main(String[] args) {
         System.out.println("Hello World");
 
         Main main = new Main();
         //main.test();
-        main.ppse_parse_test();
+        //main.ppse_parse_test();
         //main.build_ppse();
-        main.parse_gac();
+        //main.parse_gac();
+        main.parse_record();
     }
 }
