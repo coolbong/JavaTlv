@@ -1,19 +1,16 @@
-package io.github.coolbong.javatlv.util;
+package io.github.coolbong.util;
 
 import java.util.ArrayList;
-
-/**
- * Tlv data
- */
+import java.util.Arrays;
 
 public class Tlv {
 
-    private byte[] bTag;
-    private byte[] bLen;
-    private byte[] bValue;
-    private int length;
+    private final byte[] bTag;
+    private final byte[] bLen;
+    private final byte[] bValue;
+    private final int length;
 
-    private ArrayList<Tlv> child;
+    private final ArrayList<Tlv> child;
 
 
     public Tlv(String tag, String value) {
@@ -25,8 +22,8 @@ public class Tlv {
     }
 
     public Tlv(byte[] tag, byte[] len,  byte[] value) {
-        this.bTag = tag;
-        this.bValue = value;
+        this.bTag = tag.clone();
+        this.bValue = value.clone();
         this.length = value.length;
         this.child = new ArrayList<>();
 
@@ -40,7 +37,7 @@ public class Tlv {
                 this.bLen[0] = (byte)length;
             }
         } else {
-            this.bLen = len;
+            this.bLen = len.clone();
         }
 
         if (isConstructed()) {
@@ -120,11 +117,7 @@ public class Tlv {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(Hex.toHex(bTag)).append(" ");
-        sb.append(Hex.toHex(bLen)).append(" ");
-        sb.append(Hex.toHex(bValue));
-        return sb.toString();
+        return String.format("%s%s%s", Hex.toHex(bTag), Hex.toHex(bLen), Hex.toHex(bValue));
     }
 
     public void print() {
@@ -138,12 +131,10 @@ public class Tlv {
 
         StringBuilder sb = new StringBuilder();
         sb.append(tab);
-        sb.append(Hex.toHex(bTag)).append(" "); // tag
-        sb.append(Hex.toHex(bLen)).append("(").append(length).append(")"); // length
-
+        sb.append(String.format("%s %s(%d)", Hex.toHex(bTag), Hex.toHex(bLen), length));
 
         if (child.size() != 0) {
-            System.out.println(sb.toString());
+            System.out.println(sb);
             child.forEach(tlv -> tlv.print(indent + 1));
         } else {
             sb.append(' ');

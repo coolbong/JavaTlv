@@ -1,7 +1,7 @@
-package io.github.coolbong.javatlv.util;
-
+package io.github.coolbong.util;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 public class Hex {
@@ -67,6 +67,27 @@ public class Hex {
         return digit;
     }
 
+
+    public static String toAscii(byte[] buf) {
+        try {
+            return new String(buf, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            return "";
+        }
+    }
+    public static String toAscii(byte[] buf, int offset, int length) {
+        try {
+            return new String(buf, offset, length, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public static String toAscii(String hex) {
+        byte[] buf = toBytes(hex);
+        return toAscii(buf);
+    }
+
     public static String toHex(byte b) {
         char[] hexChars = new char[2];
         int val = b & 0xff;
@@ -130,15 +151,13 @@ public class Hex {
         return sb.toString();
     }
 
-    public static short setShort(byte[] bArray, int bOff, int sValue)
-            throws NullPointerException, ArrayIndexOutOfBoundsException {
+    public static short setShort(byte[] bArray, int bOff, int sValue) {
         bArray[bOff + 1] = (byte)((sValue & 0xff));
         bArray[bOff] = (byte)((sValue >> 8) & 0xff);
         return (short)(bOff + 2);
     }
 
-    public static short getShort(byte[] bArray, int bOff)
-            throws NullPointerException, ArrayIndexOutOfBoundsException {
+    public static short getShort(byte[] bArray, int bOff) {
         return (short)(((bArray[bOff] & 0xff) << 8) | (bArray[bOff + 1] & 0xff));
     }
 
@@ -154,11 +173,4 @@ public class Hex {
         return Arrays.copyOfRange(buf, offset, offset + length);
     }
 
-    public static String parseSw(byte[] buffer) {
-        if (buffer.length < 2) {
-            return "BAB0";
-        } else {
-            return u2(buffer, buffer.length - 2);
-        }
-    }
 }
