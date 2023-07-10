@@ -54,8 +54,16 @@ public class Tlv {
         return Hex.toHex(bTag);
     }
 
+    public byte[] getTagBytes() {
+        return bTag;
+    }
+
     public int getLength() {
         return length;
+    }
+
+    public byte[] getLengthBytes() {
+        return bLen;
     }
 
     public String getValue() {

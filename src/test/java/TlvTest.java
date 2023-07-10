@@ -23,6 +23,8 @@ public class TlvTest {
         assertEquals(tlv.getTag(), "84");
         assertEquals(tlv.getLength(), 14);
         assertEquals(tlv.getValue(), "315041592E5359532E4444463031");
+        assertArrayEquals(tlv.getTagBytes(), tag);
+        assertArrayEquals(tlv.getLengthBytes(), new byte[]{ (byte)0x0e });
         assertArrayEquals(tlv.getValueBytes(), value);
     }
 
@@ -41,6 +43,8 @@ public class TlvTest {
         assertEquals(tlv.getTag(), "84");
         assertEquals(tlv.getLength(), 14);
         assertEquals(tlv.getValue(), "315041592E5359532E4444463031");
+        assertArrayEquals(tlv.getTagBytes(), tag);
+        assertArrayEquals(tlv.getLengthBytes(), new byte[]{ (byte)0x0e });
         assertArrayEquals(tlv.getValueBytes(), value);
     }
 
