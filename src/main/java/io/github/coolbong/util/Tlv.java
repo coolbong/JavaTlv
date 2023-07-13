@@ -1,7 +1,6 @@
 package io.github.coolbong.util;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Tlv {
 
@@ -126,6 +125,18 @@ public class Tlv {
     @Override
     public String toString() {
         return String.format("%s%s%s", Hex.toHex(bTag), Hex.toHex(bLen), Hex.toHex(bValue));
+    }
+
+    public byte[] toBytes() {
+        int length = bTag.length + bLen.length + bValue.length;
+        int offset = 0;
+        byte[] dst = new byte[length];
+        System.arraycopy(bTag, 0, dst, offset, bTag.length);
+        offset += bTag.length;
+        System.arraycopy(bLen, 0, dst, offset, bLen.length);
+        offset += bLen.length;
+        System.arraycopy(bValue, 0, dst, offset, bValue.length);
+        return dst;
     }
 
     public void print() {

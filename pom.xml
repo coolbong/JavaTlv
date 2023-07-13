@@ -6,7 +6,8 @@
 
     <groupId>io.github.coolbong</groupId>
     <artifactId>javatlv</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1</version>
+
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -22,4 +23,17 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <repository>
+            <id>ub-repo-release</id>
+            <url>http://localhost:8081/repository/ub-repo-release/</url>
+        </repository>
+
+        <snapshotRepository>
+            <id>ub-repo-snapshot</id>
+            <url>http://localhost:8081/repository/ub-repo-snapshot/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 </project>
+

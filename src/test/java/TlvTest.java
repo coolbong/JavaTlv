@@ -17,8 +17,6 @@ public class TlvTest {
                 (byte)0x2E, (byte)0x44, (byte)0x44, (byte)0x46, (byte)0x30, (byte)0x31
         };
 
-        //6F20840E315041592E5359532E4444463031A50E5F2D046B6F656E9F110101880101
-
         assertEquals(tlv.toString(), answer);
         assertEquals(tlv.getTag(), "84");
         assertEquals(tlv.getLength(), 14);
@@ -52,6 +50,26 @@ public class TlvTest {
     public void test_tlv_print_001() {
         Tlv tlv = new Tlv("84", "315041592E5359532E4444463031");
         tlv.print();
+    }
+
+
+    @Test
+    public void test_tlv_parse_001() {
+        String resp = "6F20840E315041592E5359532E4444463031A50E5F2D046B6F656E9F110101880101";
+
+        Tlv tlv = Tlv.parse(resp);
+
+        assertEquals(tlv.getTag(), "6F");
+        assertEquals(tlv.getLength(), 32);
+        assertEquals(tlv.getValue(), "840E315041592E5359532E4444463031A50E5F2D046B6F656E9F110101880101");
+    }
+
+    @Test
+    public void test_tlv_to_bytes_001() {
+        byte[] answer = { (byte)0x88, (byte)0x01, (byte)0x01 };
+        Tlv tlv = Tlv.parse("880101");
+
+        assertArrayEquals(answer, tlv.toBytes());
     }
 
 }
