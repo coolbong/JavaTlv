@@ -43,6 +43,9 @@ public class Tlv {
             int offset = 0;
             while (offset < length) {
                 Tlv child = Tlv.parse(value, offset);
+                if (child == null) {
+                    break;
+                }
                 offset += child.getSize();
                 this.child.add(child);
             }
@@ -195,6 +198,11 @@ public class Tlv {
             System.out.println("Invalid Data");
         }
 
+        if ((bTag[0] == 0) && (length == 0)) {
+            System.out.println("Invalid Length");
+            return null;
+        }
+
         byte[] bValue = Hex.slice(buf, offset, length);
         return new Tlv(bTag, bLen, bValue);
     }
@@ -210,7 +218,6 @@ public class Tlv {
 
         return Hex.slice(buf, offset, length);
     }
-
 
 
 }

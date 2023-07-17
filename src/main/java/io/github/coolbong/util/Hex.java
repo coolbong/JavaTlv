@@ -2,6 +2,7 @@ package io.github.coolbong.util;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Hex {
@@ -171,6 +172,29 @@ public class Hex {
 
     public static byte[] slice(byte[] buf, int offset, int length) {
         return Arrays.copyOfRange(buf, offset, offset + length);
+    }
+
+    public static String toLv(String data) {
+
+        byte[] value = Hex.toBytes(data);
+        int length = value.length;
+        byte[] bLen = null;
+
+        if (length < 128) {
+            bLen = new byte[1];
+            bLen[0] = (byte)length;
+        } else if (length < 256) {
+            bLen = new byte[2];
+            bLen[0] = (byte)0x81;
+            bLen[1] = (byte)length;
+        } else {
+            bLen = new byte[3];
+            bLen[0] = (byte)0x82;
+            bLen[1] = (byte)(length >>> 8);
+            bLen[2] = (byte)length;
+        }
+
+        return toHex(bLen) + data;
     }
 
 }
