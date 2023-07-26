@@ -2,8 +2,11 @@ package io.github.coolbong.util;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Formatter;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Hex {
 
@@ -195,6 +198,33 @@ public class Hex {
         }
 
         return toHex(bLen) + data;
+    }
+
+
+    public static String toVariable(String hex) {
+        byte[] arr = toBytes(hex);
+
+        //Stream<Byte> stream = Arrays.stream(arr);
+        //ByteBuffer buffer = ByteBuffer.wrap(arr);
+
+//        String var = Stream.generate(buffer::get)
+//                .map(b -> "0x" + toHex(b))
+//                .collect(Collectors.joining(", "));
+//
+//        //System.out.println(var);
+//        return var;
+
+        StringBuilder sb = new StringBuilder();
+
+
+        for (byte b : arr) {
+            sb.append(String.format("(byte)0x%02x, ", b));
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        sb.deleteCharAt(sb.length() - 1);
+
+        return sb.toString();
+
     }
 
 }

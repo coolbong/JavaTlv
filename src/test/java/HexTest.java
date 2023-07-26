@@ -35,4 +35,15 @@ public class HexTest {
 
         assertEquals(answer, ret);
     }
+
+
+    @Test
+    public void test_hex_to_var_001() {
+        String food = "F00D";
+        String answer = "";
+        String result = Hex.toVariable(food);
+
+        System.out.println(result);
+
+    }
 }
