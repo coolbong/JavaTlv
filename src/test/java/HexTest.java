@@ -39,11 +39,15 @@ public class HexTest {
 
     @Test
     public void test_hex_to_var_001() {
-        String food = "F00D";
-        String answer = "";
+        String food = "404142434445464748494A4B4C4D4E4F";
+        String answer = "(byte)0x40, (byte)0x41, (byte)0x42, (byte)0x43, " +
+                "(byte)0x44, (byte)0x45, (byte)0x46, (byte)0x47, " +
+                "(byte)0x48, (byte)0x49, (byte)0x4a, (byte)0x4b, " +
+                "(byte)0x4c, (byte)0x4d, (byte)0x4e, (byte)0x4f";
         String result = Hex.toVariable(food);
 
-        System.out.println(result);
+//        System.out.println(result);
+        assertEquals(answer, result);
 
     }
 }
