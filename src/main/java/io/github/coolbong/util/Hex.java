@@ -3,10 +3,6 @@ package io.github.coolbong.util;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.Formatter;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class Hex {
 
@@ -181,7 +177,7 @@ public class Hex {
 
         byte[] value = Hex.toBytes(data);
         int length = value.length;
-        byte[] bLen = null;
+        byte[] bLen;
 
         if (length < 128) {
             bLen = new byte[1];
@@ -204,14 +200,11 @@ public class Hex {
     public static String toVariable(String hex) {
         byte[] arr = toBytes(hex);
 
-        //Stream<Byte> stream = Arrays.stream(arr);
-        //ByteBuffer buffer = ByteBuffer.wrap(arr);
 
+//        ByteBuffer buffer = ByteBuffer.wrap(arr);
 //        String var = Stream.generate(buffer::get)
 //                .map(b -> "0x" + toHex(b))
 //                .collect(Collectors.joining(", "));
-//
-//        //System.out.println(var);
 //        return var;
 
         StringBuilder sb = new StringBuilder();
