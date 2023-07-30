@@ -72,4 +72,17 @@ public class TlvTest {
         assertArrayEquals(answer, tlv.toBytes());
     }
 
+
+   @Test
+   public void test_tlv_find_001() {
+       String resp = "6F20840E315041592E5359532E4444463031A50E5F2D046B6F656E9F110101880101";
+
+       Tlv tlv = Tlv.parse(resp);
+       Tlv tag88 = tlv.find("88");
+
+       assertEquals("88", tag88.getTag());
+       assertEquals(1, tag88.getLength());
+       assertEquals("01", tag88.getValue());
+   }
+
 }

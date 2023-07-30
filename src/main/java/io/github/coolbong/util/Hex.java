@@ -208,8 +208,6 @@ public class Hex {
 //        return var;
 
         StringBuilder sb = new StringBuilder();
-
-
         for (byte b : arr) {
             sb.append(String.format("(byte)0x%02x, ", b));
         }

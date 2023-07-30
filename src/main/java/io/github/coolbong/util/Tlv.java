@@ -161,7 +161,7 @@ public class Tlv {
         } else {
             sb.append(' ');
             sb.append(Hex.toHex(bValue)); // value
-            System.out.println(sb.toString());
+            System.out.println(sb);
         }
     }
 
@@ -179,9 +179,9 @@ public class Tlv {
 
         offset += bTag.length;
 
-        int length = 0;
+        int length;
         byte[] bLen;
-        int number_of_bytes = 0;
+        int number_of_bytes;
         if ((buf[offset] & 0x80) == 0x80) {
             number_of_bytes = (buf[offset] & 0x7F) + 1;
             length = Hex.toInt(Hex.toHex(buf, offset+1, number_of_bytes - 1));
@@ -196,6 +196,7 @@ public class Tlv {
 
         if ((offset + length) > buf.length) {
             System.out.println("Invalid Data");
+            return null;
         }
 
         if ((bTag[0] == 0) && (length == 0)) {
