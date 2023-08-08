@@ -236,6 +236,7 @@ public class Tlv {
 
         if ((offset + length) > buf.length) {
             System.out.println("Invalid Data");
+            return null;
         }
 
         if ((bTag[0] == 0) && (length == 0)) {
