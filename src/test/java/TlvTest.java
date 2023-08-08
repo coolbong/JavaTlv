@@ -65,11 +65,32 @@ public class TlvTest {
     }
 
     @Test
+    public void test_tlv_parse_002() {
+        //byte[] answer = { (byte)0x88, (byte)0x01, (byte)0x01 };
+        Tlv tlv = Tlv.parse("910235A533BF0C3061164F07D410000001501050084E4557204B4C534387010161164F07D410000001101050084F4C44204B4C5343870102", Tlv.DGI);
+
+        assertEquals("9102", tlv.getTag());
+    }
+
+    @Test
     public void test_tlv_to_bytes_001() {
         byte[] answer = { (byte)0x88, (byte)0x01, (byte)0x01 };
         Tlv tlv = Tlv.parse("880101");
 
         assertArrayEquals(answer, tlv.toBytes());
     }
+
+
+    @Test
+    public void test_tlv_parse_tag_001() {
+        byte[] text = { (byte)0x88, (byte)0x01, (byte)0x01 };
+        byte[] tag = Tlv.parseTag(text, 0);
+        byte[] answer = {(byte)0x88};
+
+        assertArrayEquals(answer, tag);
+    }
+
+
+
 
 }

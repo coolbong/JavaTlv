@@ -1,13 +1,20 @@
 package io.github.coolbong.util;
 
+
 import java.util.ArrayList;
 
 public class Tlv {
+
+    public static final int EMV = 0;
+    public static final int DGI = 1;
+
 
     private final byte[] bTag;
     private final byte[] bLen;
     private final byte[] bValue;
     private final int length;
+
+    private final int encoding;
 
     private final ArrayList<Tlv> child;
 
@@ -21,19 +28,36 @@ public class Tlv {
     }
 
     public Tlv(byte[] tag, byte[] len,  byte[] value) {
+        this(tag, len, value, Tlv.EMV);
+    }
+
+    public Tlv(byte[] tag, byte[] len,  byte[] value, int encoding) {
         this.bTag = tag.clone();
         this.bValue = value.clone();
         this.length = value.length;
         this.child = new ArrayList<>();
+        this.encoding = encoding;
 
         if (len == null) {
-            if (length > 127) {
-                this.bLen = new byte[2];
-                this.bLen[0] = (byte)0x81;
-                this.bLen[1] = (byte)length;
+            if (encoding == Tlv.DGI) {
+                if (length > 127) {
+                    this.bLen = new byte[3];
+                    this.bLen[0] = (byte)0xff;
+                    this.bLen[1] = (byte)((length >> 8) & 0xff);
+                    this.bLen[2] = (byte)length;
+                } else {
+                    this.bLen = new byte[1];
+                    this.bLen[0] = (byte)length;
+                }
             } else {
-                this.bLen = new byte[1];
-                this.bLen[0] = (byte)length;
+                if (length > 127) {
+                    this.bLen = new byte[2];
+                    this.bLen[0] = (byte)0x81;
+                    this.bLen[1] = (byte)length;
+                } else {
+                    this.bLen = new byte[1];
+                    this.bLen[0] = (byte)length;
+                }
             }
         } else {
             this.bLen = len.clone();
@@ -114,7 +138,7 @@ public class Tlv {
     }
 
     public boolean isConstructed() {
-        return ((this.bTag[0] & 0x20) == 0x20);
+        return ((this.encoding == Tlv.DGI) || ((this.bTag[0] & 0x20) == 0x20));
     }
 
     public int getEncodedLength() {
@@ -161,38 +185,54 @@ public class Tlv {
         } else {
             sb.append(' ');
             sb.append(Hex.toHex(bValue)); // value
-            System.out.println(sb.toString());
+            System.out.println(sb);
         }
     }
 
 
     public static Tlv parse(String data) {
-        return parse(Hex.toBytes(data));
+        return parse(Hex.toBytes(data), 0, EMV);
     }
 
-    public static Tlv parse(byte[] buf) {
-        return parse(buf, 0);
+    public static Tlv parse(String data, int encoding) {
+        return parse(Hex.toBytes(data), 0, encoding);
     }
 
     public static Tlv parse(byte[] buf, int offset) {
-        byte[] bTag = parseTag(buf, offset);
+        return parse(buf, offset, EMV);
+    }
+
+    public static Tlv parse(byte[] buf, int offset, int encoding) {
+        byte[] bTag;
+        bTag = parseTag(buf, offset, encoding);
 
         offset += bTag.length;
 
-        int length = 0;
+        int length;
         byte[] bLen;
-        int number_of_bytes = 0;
-        if ((buf[offset] & 0x80) == 0x80) {
-            number_of_bytes = (buf[offset] & 0x7F) + 1;
-            length = Hex.toInt(Hex.toHex(buf, offset+1, number_of_bytes - 1));
-            bLen = Hex.slice(buf, offset, number_of_bytes);
+        int number_of_bytes;
+        if (encoding == Tlv.EMV) {
+            if ((buf[offset] & 0x80) == 0x80) {
+                number_of_bytes = (buf[offset] & 0x7F) + 1;
+                length = Hex.toInt(Hex.toHex(buf, offset + 1, number_of_bytes - 1));
+                bLen = Hex.slice(buf, offset, number_of_bytes);
+            } else {
+                number_of_bytes = 1;
+                length = buf[offset];
+                bLen = new byte[1];
+                bLen[0] = buf[offset];
+            }
+            offset += number_of_bytes;
         } else {
-            number_of_bytes = 1;
-            length = buf[offset];
-            bLen = new byte[1];
-            bLen[0] =  buf[offset];
+            if (buf[offset] == (byte)0xff) { // 3 byte length
+                length = Hex.getShort(buf, offset +1);
+                bLen = Hex.slice(buf, offset, 3); // ff 00 12
+            } else { // 1 byte length
+                length = buf[offset] & 0xff;
+                bLen = new byte[1];
+                bLen[0] = buf[offset];
+            }
         }
-        offset += number_of_bytes;
 
         if ((offset + length) > buf.length) {
             System.out.println("Invalid Data");
@@ -207,13 +247,23 @@ public class Tlv {
         return new Tlv(bTag, bLen, bValue);
     }
 
+
+
     public static byte[] parseTag(byte[] buf, int offset) {
+        return parseTag(buf, offset, EMV);
+    }
+
+    public static byte[] parseTag(byte[] buf, int offset, int encoding) {
         int length = 1;
         int pos = offset;
-        if ((buf[pos++] & 0x1f) == 0x1f) { // subsequent byte
-            do {
-                length ++;
-            } while ((buf[pos++] & 0x80) == 0x80);
+        if (encoding == EMV) {
+            if ((buf[pos++] & 0x1f) == 0x1f) { // subsequent byte
+                do {
+                    length++;
+                } while ((buf[pos++] & 0x80) == 0x80);
+            }
+        } else {
+            length = 2; // dgi tag length 2 byte
         }
 
         return Hex.slice(buf, offset, length);
