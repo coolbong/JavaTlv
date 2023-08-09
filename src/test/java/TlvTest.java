@@ -72,6 +72,19 @@ public class TlvTest {
     }
 
     @Test
+    public void test_tlv_parse_003() {
+        Tlv tlv;
+
+        tlv = Tlv.parse("82027800");
+        assertArrayEquals(tlv.getLengthBytes(), new byte[]{0x02});
+
+        tlv = Tlv.parse("8281027800");
+        assertArrayEquals(tlv.getLengthBytes(), new byte[]{(byte)0x81, (byte)0x02});
+
+
+    }
+
+    @Test
     public void test_tlv_to_bytes_001() {
         byte[] answer = { (byte)0x88, (byte)0x01, (byte)0x01 };
         Tlv tlv = Tlv.parse("880101");

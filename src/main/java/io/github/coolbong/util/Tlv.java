@@ -138,7 +138,7 @@ public class Tlv {
     }
 
     public boolean isConstructed() {
-        return ((this.encoding == Tlv.DGI) || ((this.bTag[0] & 0x20) == 0x20));
+        return ((this.encoding == Tlv.EMV) && ((this.bTag[0] & 0x20) == 0x20));
     }
 
     public int getEncodedLength() {
@@ -245,7 +245,7 @@ public class Tlv {
         }
 
         byte[] bValue = Hex.slice(buf, offset, length);
-        return new Tlv(bTag, bLen, bValue);
+        return new Tlv(bTag, bLen, bValue, encoding);
     }
 
 
