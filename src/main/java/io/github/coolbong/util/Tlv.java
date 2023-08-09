@@ -2,6 +2,7 @@ package io.github.coolbong.util;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Tlv {
 
@@ -120,7 +121,7 @@ public class Tlv {
         return targetTlv;
     }
 
-    public ArrayList<Tlv> findAll(String tag) {
+    public List<Tlv> findAll(String tag) {
         final String targetTag = Hex.strip(tag).toUpperCase();
 
         ArrayList<Tlv> tlvs = new ArrayList<>();
@@ -130,11 +131,15 @@ public class Tlv {
                 tlvs.add(tlv);
             }
             if (tlv.isConstructed()) {
-                ArrayList<Tlv> ret = tlv.findAll(targetTag);
+                List<Tlv> ret = tlv.findAll(targetTag);
                 tlvs.addAll(ret);
             }
         }
         return tlvs;
+    }
+
+    public List<Tlv> getChild() {
+        return this.child;
     }
 
     public boolean isConstructed() {
@@ -203,6 +208,17 @@ public class Tlv {
     }
 
     public static Tlv parse(byte[] buf, int offset, int encoding) {
+
+        if (buf == null) {
+            return null;
+        }
+        // if (buf.length < offset) // prevent array out of bound exception
+
+        // skip dummy byte (zero byte)
+        while(buf[offset] == 0) {
+            offset++;
+        }
+
         byte[] bTag;
         bTag = parseTag(buf, offset, encoding);
 
@@ -242,10 +258,10 @@ public class Tlv {
             return null;
         }
 
-        if ((bTag[0] == 0) && (length == 0)) {
-            System.out.println("Invalid Length");
-            return null;
-        }
+        //if ((bTag[0] == 0) && (length == 0)) {
+        //    System.out.println("Invalid Length");
+        //    return null;
+        //}
 
         byte[] bValue = Hex.slice(buf, offset, length);
         return new Tlv(bTag, bLen, bValue, encoding);

@@ -1,6 +1,8 @@
 import io.github.coolbong.util.Tlv;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
@@ -72,25 +74,53 @@ public class TlvTest {
         assertEquals(0x35, tlv.getLength());
     }
 
+
     @Test
     public void test_tlv_parse_003() {
         // dgi parse
         Tlv tlv = Tlv.parse("800030FE5960267173B426A62024AF18E7D9783AA7393DE680CEA2194CFCB478201095EA054A594FD07C02843E11113B7A3AB0", Tlv.DGI);
 
-        //tlv.getValue()
         assertEquals("8000", tlv.getTag());
         assertEquals(0x30, tlv.getLength());
+        assertEquals("FE5960267173B426A62024AF18E7D9783AA7393DE680CEA2194CFCB478201095EA054A594FD07C02843E11113B7A3AB0", tlv.getValue());
     }
 
     @Test
     public void test_tlv_parse_004() {
+        // multibyte length check
         Tlv tlv;
-
         tlv = Tlv.parse("82027800");
         assertArrayEquals(tlv.getLengthBytes(), new byte[]{0x02});
 
         tlv = Tlv.parse("8281027800");
         assertArrayEquals(tlv.getLengthBytes(), new byte[]{(byte)0x81, (byte)0x02});
+        assertEquals("8281027800", tlv.toString());
+    }
+
+    @Test
+    public void test_tlv_parse_005() {
+        String fciPropTemp = "A50E8801015F2D046B6F656E9F110101";
+
+        Tlv tlv = Tlv.parse(fciPropTemp);
+        assertEquals("A5", tlv.getTag());
+        assertEquals(14, tlv.getLength());
+
+        List<Tlv> child = tlv.getChild();
+
+        Tlv sfiTlv = child.get(0);
+        assertEquals("88", sfiTlv.getTag());
+        assertEquals(0x01, sfiTlv.getLength());
+        assertEquals("01", sfiTlv.getValue());
+
+        Tlv langPrefTlv = child.get(1);
+        assertEquals("5F2D", langPrefTlv.getTag());
+        assertEquals(4, langPrefTlv.getLength());
+        assertEquals("6B6F656E", langPrefTlv.getValue());
+
+        Tlv issuerCodeTlv = child.get(2);
+        assertEquals("9F11", issuerCodeTlv.getTag());
+        assertEquals(1, issuerCodeTlv.getLength());
+        assertEquals("01", issuerCodeTlv.getValue());
     }
 
     @Test
@@ -144,7 +174,52 @@ public class TlvTest {
         assertEquals(child.getTag(), "9F26");
         assertEquals(child.getLength(), 8);
         assertEquals(child.getValue(), "CA800E798292C38D");
+    }
 
+    @Test
+    public void test_tlv_find_003() {
+        String pseFci = "6F20840E315041592E5359532E4444463031A50E8801015F2D046B6F656E9F110101";
+        Tlv tlv = Tlv.parse(pseFci);
+
+        Tlv dfNameTlv = tlv.find("84");
+        assertEquals("84", dfNameTlv.getTag());
+        assertEquals(0x0E, dfNameTlv.getLength());
+        assertEquals("315041592E5359532E4444463031", dfNameTlv.getValue());
+
+        Tlv sfiTlv = tlv.find("88");
+        assertEquals("88", sfiTlv.getTag());
+        assertEquals(0x01, sfiTlv.getLength());
+        assertEquals("01", sfiTlv.getValue());
+
+        Tlv langPrefTlv = tlv.find("5F2D");
+        assertEquals("5F2D", langPrefTlv.getTag());
+        assertEquals(4, langPrefTlv.getLength());
+        assertEquals("6B6F656E", langPrefTlv.getValue());
+
+        Tlv issuerCodeTlv = tlv.find("9F11");
+        assertEquals("9F11", issuerCodeTlv.getTag());
+        assertEquals(1, issuerCodeTlv.getLength());
+        assertEquals("01", issuerCodeTlv.getValue());
+    }
+
+    @Test
+    public void test_tlv_find_all_001() {
+        String pseRecord = "703061164F07D410000001501050084E4557204B4C534387010161164F07D410000001101050084F4C44204B4C5343870102";
+
+        Tlv tlv = Tlv.parse(pseRecord);
+        List<Tlv> appTemplate =  tlv.findAll("61"); // application template
+
+        assertEquals(2, appTemplate.size());
+        Tlv app1 = appTemplate.get(0);
+        Tlv app2 = appTemplate.get(1);
+
+        assertEquals("61", app1.getTag());
+        assertEquals(22, app1.getLength());
+        assertEquals("4F07D410000001501050084E4557204B4C5343870101", app1.getValue());
+
+        assertEquals("61", app2.getTag());
+        assertEquals(22, app2.getLength());
+        assertEquals("4F07D410000001101050084F4C44204B4C5343870102", app2.getValue());
     }
 
 
