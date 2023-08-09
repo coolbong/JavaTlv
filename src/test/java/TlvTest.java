@@ -69,10 +69,21 @@ public class TlvTest {
         Tlv tlv = Tlv.parse("910235A533BF0C3061164F07D410000001501050084E4557204B4C534387010161164F07D410000001101050084F4C44204B4C5343870102", Tlv.DGI);
 
         assertEquals("9102", tlv.getTag());
+        assertEquals(0x35, tlv.getLength());
     }
 
     @Test
     public void test_tlv_parse_003() {
+        // dgi parse
+        Tlv tlv = Tlv.parse("800030FE5960267173B426A62024AF18E7D9783AA7393DE680CEA2194CFCB478201095EA054A594FD07C02843E11113B7A3AB0", Tlv.DGI);
+
+        //tlv.getValue()
+        assertEquals("8000", tlv.getTag());
+        assertEquals(0x30, tlv.getLength());
+    }
+
+    @Test
+    public void test_tlv_parse_004() {
         Tlv tlv;
 
         tlv = Tlv.parse("82027800");
@@ -80,8 +91,6 @@ public class TlvTest {
 
         tlv = Tlv.parse("8281027800");
         assertArrayEquals(tlv.getLengthBytes(), new byte[]{(byte)0x81, (byte)0x02});
-
-
     }
 
     @Test
@@ -112,6 +121,30 @@ public class TlvTest {
         assertEquals("88", tag88.getTag());
         assertEquals(1, tag88.getLength());
         assertEquals("01", tag88.getValue());
+    }
+
+    @Test
+    public void test_tlv_find_002() {
+        String resp = "77319F2701809F360200019F2608CA800E798292C38D9F101A1110A00103220001DAC000000000000000FF00000000000000FF";
+        Tlv tlv = Tlv.parse(resp);
+        Tlv child;
+
+
+        child = tlv.find("9f27"); // find cid
+        assertEquals(child.getTag(), "9F27");
+        assertEquals(child.getLength(), 1);
+        assertEquals(child.getValue(), "80");
+
+        child = tlv.find("9f36"); // find cid
+        assertEquals(child.getTag(), "9F36");
+        assertEquals(child.getLength(), 2);
+        assertEquals(child.getValue(), "0001");
+
+        child = tlv.find("9f26"); // find ac
+        assertEquals(child.getTag(), "9F26");
+        assertEquals(child.getLength(), 8);
+        assertEquals(child.getValue(), "CA800E798292C38D");
+
     }
 
 

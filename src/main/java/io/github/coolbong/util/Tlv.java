@@ -222,17 +222,20 @@ public class Tlv {
                 bLen = new byte[1];
                 bLen[0] = buf[offset];
             }
-            offset += number_of_bytes;
+
         } else {
             if (buf[offset] == (byte)0xff) { // 3 byte length
+                number_of_bytes = 3;
                 length = Hex.getShort(buf, offset +1);
                 bLen = Hex.slice(buf, offset, 3); // ff 00 12
             } else { // 1 byte length
+                number_of_bytes = 1;
                 length = buf[offset] & 0xff;
                 bLen = new byte[1];
                 bLen[0] = buf[offset];
             }
         }
+        offset += number_of_bytes;
 
         if ((offset + length) > buf.length) {
             System.out.println("Invalid Data");
