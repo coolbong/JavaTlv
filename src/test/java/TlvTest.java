@@ -49,6 +49,15 @@ public class TlvTest {
     }
 
     @Test
+    public void test_tlv_constructor_003() {
+        Tlv tlv = new Tlv("8000", "11223344", Tlv.DGI);
+
+        assertEquals("8000", tlv.getTag());
+        assertEquals(4, tlv.getLength());
+        assertEquals("11223344", tlv.getValue());
+    }
+
+    @Test
     public void test_tlv_print_001() {
         Tlv tlv = new Tlv("84", "315041592E5359532E4444463031");
         tlv.print();
@@ -121,6 +130,18 @@ public class TlvTest {
         assertEquals("9F11", issuerCodeTlv.getTag());
         assertEquals(1, issuerCodeTlv.getLength());
         assertEquals("01", issuerCodeTlv.getValue());
+    }
+
+    @Test
+    public void test_tlv_parse_006() {
+        // dgi
+        String dgi = "8000FF00081122334455667788";
+        Tlv tlv = Tlv.parse(dgi, Tlv.DGI);
+
+        assertEquals("8000", tlv.getTag());
+        assertEquals(8, tlv.getLength());
+        assertEquals("1122334455667788", tlv.getValue());
+
     }
 
     @Test

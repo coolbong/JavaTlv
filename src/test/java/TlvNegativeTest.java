@@ -17,10 +17,9 @@ public class TlvNegativeTest {
 
     @Test
     public void tlv_negative_test_parse_002() {
-        String wrongtlv = "8800";
-
-        Tlv tlv = Tlv.parse(wrongtlv);
-        System.out.println(tlv);
+        String zerolengthvalue = "8800";
+        Tlv tlv = Tlv.parse(zerolengthvalue);
+        assertEquals(zerolengthvalue, tlv.toString());
     }
 
 }

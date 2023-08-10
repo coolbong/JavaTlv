@@ -21,15 +21,23 @@ public class Tlv {
 
 
     public Tlv(String tag, String value) {
-        this(Hex.toBytes(tag), null, Hex.toBytes(value));
+        this(Hex.toBytes(tag), null, Hex.toBytes(value), EMV);
+    }
+
+    public Tlv(String tag, String value, int encoding) {
+        this(Hex.toBytes(tag), null, Hex.toBytes(value), encoding);
     }
 
     public Tlv(byte[] bTag, byte[] bValue) {
-        this(bTag, null, bValue);
+        this(bTag, null, bValue, EMV);
+    }
+
+    public Tlv(byte[] bTag, byte[] bValue, int encoding) {
+        this(bTag, null, bValue, encoding);
     }
 
     public Tlv(byte[] tag, byte[] len,  byte[] value) {
-        this(tag, len, value, Tlv.EMV);
+        this(tag, len, value, EMV);
     }
 
     public Tlv(byte[] tag, byte[] len,  byte[] value, int encoding) {
@@ -40,7 +48,7 @@ public class Tlv {
         this.encoding = encoding;
 
         if (len == null) {
-            if (encoding == Tlv.DGI) {
+            if (encoding == DGI) {
                 if (length > 127) {
                     this.bLen = new byte[3];
                     this.bLen[0] = (byte)0xff;
@@ -184,7 +192,7 @@ public class Tlv {
         sb.append(tab);
         sb.append(String.format("%s %s(%d)", Hex.toHex(bTag), Hex.toHex(bLen), length));
 
-        if (child.size() != 0) {
+        if (!child.isEmpty()) {
             System.out.println(sb);
             child.forEach(tlv -> tlv.print(indent + 1));
         } else {
