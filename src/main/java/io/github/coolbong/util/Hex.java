@@ -126,13 +126,28 @@ public class Hex {
     public static String toHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
 
-        for(int j = 0; j < bytes.length; ++j) {
+        int length = bytes.length;
+        for(int j = 0; j < length; ++j) {
             int v = bytes[j] & 255;
             hexChars[j * 2] = hexArray[v >>> 4];
             hexChars[j * 2 + 1] = hexArray[v & 15];
         }
 
         return new String(hexChars);
+    }
+
+    public static String toHex2(byte[] bytes) {
+        int aOffset = 0;
+        int aLength = bytes.length;
+        char[] dst   = new char[aLength * 2];
+
+        for (int si = aOffset, di = 0; si < aOffset+aLength; si++) {
+            byte b = bytes[si];
+            dst[di++] = hexArray[(b & 0xf0) >>> 4];
+            dst[di++] = hexArray[(b & 0x0f)];
+        }
+
+        return new String(dst);
     }
 
     public static String u1(byte[] data, int offset) {
