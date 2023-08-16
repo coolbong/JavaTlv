@@ -3,8 +3,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class TlvTest {
 
@@ -77,6 +76,7 @@ public class TlvTest {
 
     @Test
     public void test_tlv_parse_002() {
+        // parse dgi
         Tlv tlv = Tlv.parse("910235A533BF0C3061164F07D410000001501050084E4557204B4C534387010161164F07D410000001101050084F4C44204B4C5343870102", Tlv.DGI);
 
         assertEquals("9102", tlv.getTag());
@@ -86,7 +86,7 @@ public class TlvTest {
 
     @Test
     public void test_tlv_parse_003() {
-        // dgi parse
+        // parse dgi
         Tlv tlv = Tlv.parse("800030FE5960267173B426A62024AF18E7D9783AA7393DE680CEA2194CFCB478201095EA054A594FD07C02843E11113B7A3AB0", Tlv.DGI);
 
         assertEquals("8000", tlv.getTag());
@@ -141,7 +141,44 @@ public class TlvTest {
         assertEquals("8000", tlv.getTag());
         assertEquals(8, tlv.getLength());
         assertEquals("1122334455667788", tlv.getValue());
+    }
 
+    @Test
+    public void test_tlv_parse_007() {
+        // 2byte tag
+        Tlv tlv = Tlv.parse("9F110101");
+
+        assertEquals("9F11", tlv.getTag());
+        assertEquals(1, tlv.getLength());
+        assertEquals("01", tlv.getValue());
+    }
+
+    @Test
+    public void test_tlv_parse_008() {
+        // 1byte tag
+        Tlv tlv = Tlv.parse("880101");
+
+        assertEquals("88", tlv.getTag());
+        assertEquals(1, tlv.getLength());
+        assertEquals("01", tlv.getValue());
+    }
+
+
+    @Test
+    public void test_tlv_is_constructed_001() {
+        // 1byte tag
+        Tlv tlv = Tlv.parse("880101");
+        assertTrue(!tlv.isConstructed());
+    }
+
+    @Test
+    public void test_tlv_is_constructed_002() {
+        // 1byte tag
+        Tlv tlv = Tlv.parse("61094F07A0000000031010");
+        assertTrue(tlv.isConstructed());
+        assertEquals("61", tlv.getTag());
+        assertEquals(9, tlv.getLength());
+        assertEquals("4F07A0000000031010", tlv.getValue());
     }
 
     @Test

@@ -112,7 +112,7 @@ public class Hex {
         return toHex(bArray);
     }
 
-    public static String toHex(byte[] buffer, int offset, int length) {
+    public static String toHexOld(byte[] buffer, int offset, int length) {
         char[] hexChars = new char[length * 2];
 
         for(int j = 0; j < length; ++j) {
@@ -123,7 +123,19 @@ public class Hex {
         return new String(hexChars);
     }
 
-    public static String toHex(byte[] bytes) {
+    public static String toHex(byte[] buffer, int offset, int length) {
+        char[] dst   = new char[length * 2];
+
+        for (int si = offset, di = 0; si < offset + length; si++) {
+            byte b = buffer[si];
+            dst[di++] = hexArray[(b & 0xf0) >>> 4];
+            dst[di++] = hexArray[(b & 0x0f)];
+        }
+
+        return new String(dst);
+    }
+
+    public static String toHexOld(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
 
         int length = bytes.length;
@@ -136,18 +148,25 @@ public class Hex {
         return new String(hexChars);
     }
 
-    public static String toHex2(byte[] bytes) {
-        int aOffset = 0;
-        int aLength = bytes.length;
-        char[] dst   = new char[aLength * 2];
+    public static String toHex(byte[] bytes) {
+        int length = bytes.length;
+        char[] dst   = new char[length * 2];
 
-        for (int si = aOffset, di = 0; si < aOffset+aLength; si++) {
+        for (int si = 0, di = 0; si < length; si++) {
             byte b = bytes[si];
             dst[di++] = hexArray[(b & 0xf0) >>> 4];
             dst[di++] = hexArray[(b & 0x0f)];
         }
 
         return new String(dst);
+    }
+
+    public static String toHex3(byte[] arr) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : arr) {
+            sb.append(String.format("%02X", b));
+        }
+        return sb.toString();
     }
 
     public static String u1(byte[] data, int offset) {
