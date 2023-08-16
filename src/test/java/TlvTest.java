@@ -168,7 +168,7 @@ public class TlvTest {
     public void test_tlv_is_constructed_001() {
         // 1byte tag
         Tlv tlv = Tlv.parse("880101");
-        assertTrue(!tlv.isConstructed());
+        assertFalse(tlv.isConstructed());
     }
 
     @Test
