@@ -1,4 +1,5 @@
 import io.github.coolbong.util.Tlv;
+import logger.ConsoleLogger;
 import org.junit.Test;
 
 import java.util.List;
@@ -182,6 +183,16 @@ public class TlvTest {
     }
 
     @Test
+    public void test_tlv_is_constructed_003() {
+        String fci = "6F3B8407A0000008781010A530500B4B4C5343204372656469748701019F38035F2A025F2D046B6F656E9F1101019F12044B4C5343BF0C059F4D02150A";
+        Tlv tlv = Tlv.parse(fci);
+        //tlv.print();
+        assertTrue(tlv.isConstructed());
+        assertEquals("6F", tlv.getTag());
+        assertEquals(0x3b, tlv.getLength());
+    }
+
+    @Test
     public void test_tlv_to_bytes_001() {
         byte[] answer = { (byte)0x88, (byte)0x01, (byte)0x01 };
         Tlv tlv = Tlv.parse("880101");
@@ -216,7 +227,6 @@ public class TlvTest {
         String resp = "77319F2701809F360200019F2608CA800E798292C38D9F101A1110A00103220001DAC000000000000000FF00000000000000FF";
         Tlv tlv = Tlv.parse(resp);
         Tlv child;
-
 
         child = tlv.find("9f27"); // find cid
         assertEquals(child.getTag(), "9F27");
@@ -280,6 +290,69 @@ public class TlvTest {
         assertEquals("4F07D410000001101050084F4C44204B4C5343870102", app2.getValue());
     }
 
+
+    @Test
+    public void test_tlv_get_bytes_001() {
+        byte[] aip = { (byte)0x82, (byte)0x02, (byte)0x18, (byte)0x00 };
+
+        Tlv tlv = Tlv.parse("82021800");
+        byte[] ret = tlv.toBytes();
+        assertArrayEquals(aip, ret);
+
+        byte[] t = {(byte)0x82};
+        byte[] v = {(byte)0x18, (byte)0x00};
+        tlv = new Tlv(t, v);
+        ret = tlv.toBytes();
+        assertArrayEquals(aip, ret);
+
+        tlv = new Tlv("82", "1800");
+        ret = tlv.toBytes();
+        assertArrayEquals(aip, ret);
+    }
+
+    @Test
+    public void test_tlv_get_bytes_002() {
+        byte[] aip = { (byte)0x82, (byte)0x81, (byte)0x02, (byte)0x18, (byte)0x00 };
+
+
+        byte[] t = {(byte)0x82};
+        byte[] l = {(byte)0x81, (byte)0x02};
+        byte[] v = {(byte)0x18, (byte)0x00};
+        Tlv tlv = new Tlv(t, l, v);
+        byte[] ret = tlv.toBytes();
+        assertArrayEquals(aip, ret);
+
+        tlv = Tlv.parse("8281021800");
+        ret = tlv.toBytes();
+        assertArrayEquals(aip, ret);
+    }
+
+
+    @Test
+    public void test_tlv_log_001() {
+        ConsoleLogger logger = new ConsoleLogger();
+
+        Tlv tlv = Tlv.parse("8281021800");
+        tlv.log(logger);
+        //tlv.print();
+
+        tlv = Tlv.parse("6F3B8407A0000008781010A530500B4B4C5343204372656469748701019F38035F2A025F2D046B6F656E9F1101019F12044B4C5343BF0C059F4D02150A");
+        tlv.log(logger);
+        //tlv.print();
+
+        tlv = Tlv.parse("770E8202180094080801010018010200");
+        tlv.log(logger);
+        //tlv.print();
+
+        tlv = Tlv.parse("703F57139490192619045993D28066011902275500000F5F2014515352422F4449574C20494C4D202020202020209F1F1031393032323030373535303030303030");
+        tlv.log(logger);
+
+        tlv = Tlv.parse("70765A0894901926190459935F3401015F25032307265F24032806305F280204109F0702FF008C1B9F02069F03069F1A0295055F2A029A039C019F37049F35019F34038D0991088A0295059F37048E10000000000000000002011E0302031F009F0E0500100000009F0F05B060FC98009F0D05B060BC8800");
+        tlv.log(logger);
+
+        tlv = Tlv.parse("700A5F300206019F08020001");
+        tlv.log(logger);
+    }
 
 
 }

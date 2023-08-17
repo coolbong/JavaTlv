@@ -4,6 +4,8 @@ package io.github.coolbong.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.github.coolbong.util.Hex.toHex;
+
 public class Tlv {
 
     public static final int EMV = 0;
@@ -86,7 +88,7 @@ public class Tlv {
     }
 
     public String getTag() {
-        return Hex.toHex(bTag);
+        return toHex(bTag);
     }
 
     public byte[] getTagBytes() {
@@ -102,7 +104,7 @@ public class Tlv {
     }
 
     public String getValue() {
-        return Hex.toHex(bValue);
+        return toHex(bValue);
     }
 
     public byte[] getValueBytes() {
@@ -164,7 +166,7 @@ public class Tlv {
 
     @Override
     public String toString() {
-        return String.format("%s%s%s", Hex.toHex(bTag), Hex.toHex(bLen), Hex.toHex(bValue));
+        return String.format("%s%s%s", toHex(bTag), toHex(bLen), toHex(bValue));
     }
 
     public byte[] toBytes() {
@@ -185,20 +187,42 @@ public class Tlv {
 
     public void print(int indent) {
         StringBuilder tab = new StringBuilder();
-        for (int i=0; i<indent; i++)
-            tab.append("\t");
+        for (int i=0; i<indent; i++) {
+            tab.append(space);
+        }
 
         StringBuilder sb = new StringBuilder();
         sb.append(tab);
-        sb.append(String.format("%s %s(%d)", Hex.toHex(bTag), Hex.toHex(bLen), length));
+        sb.append(String.format("%s %s(%d)", toHex(bTag), toHex(bLen), length));
 
         if (!child.isEmpty()) {
             System.out.println(sb);
             child.forEach(tlv -> tlv.print(indent + 1));
         } else {
             sb.append(' ');
-            sb.append(Hex.toHex(bValue)); // value
+            sb.append(toHex(bValue)); // value
             System.out.println(sb);
+        }
+    }
+
+    public void log(TlvLogger TlvLogger) {
+        log(0, TlvLogger);
+    }
+
+    public static final String space = "    ";
+    //public static final String space = "\t";
+
+    public void log(int indent, TlvLogger logger) {
+        StringBuilder tab = new StringBuilder();
+        for (int i=0; i<indent; i++) {
+            tab.append(space);
+        }
+
+        if (!child.isEmpty()) {
+            logger.debug("{}{} {}({})", tab, String.format("%-4s",toHex(bTag)), toHex(bLen), String.format("%2d", length));
+            child.forEach(tlv -> tlv.log(indent + 1, logger));
+        } else {
+            logger.debug("{}{} {}({}) {}", tab, String.format("%-4s",toHex(bTag)), toHex(bLen), String.format("%2d", length), toHex(bValue));
         }
     }
 
@@ -238,7 +262,7 @@ public class Tlv {
         if (encoding == Tlv.EMV) {
             if ((buf[offset] & 0x80) == 0x80) {
                 number_of_bytes = (buf[offset] & 0x7F) + 1;
-                length = Hex.toInt(Hex.toHex(buf, offset + 1, number_of_bytes - 1));
+                length = Hex.toInt(toHex(buf, offset + 1, number_of_bytes - 1));
                 bLen = Hex.slice(buf, offset, number_of_bytes);
             } else {
                 number_of_bytes = 1;
@@ -265,11 +289,6 @@ public class Tlv {
             System.out.println("Invalid Data");
             return null;
         }
-
-        //if ((bTag[0] == 0) && (length == 0)) {
-        //    System.out.println("Invalid Length");
-        //    return null;
-        //}
 
         byte[] bValue = Hex.slice(buf, offset, length);
         return new Tlv(bTag, bLen, bValue, encoding);
