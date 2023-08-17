@@ -51,12 +51,13 @@ public class Tlv {
 
         if (len == null) {
             if (encoding == DGI) {
-                if (length > 127) {
+                // 3 bytes with the first byte set to 'FF' followed by 2 bytes '0000' to 'FFFE'(0 to 65534)
+                if (length > 254) {
                     this.bLen = new byte[3];
                     this.bLen[0] = (byte)0xff;
                     this.bLen[1] = (byte)((length >> 8) & 0xff);
                     this.bLen[2] = (byte)length;
-                } else {
+                } else {  //  1 byte in binary format if the length of data is from '00' to 'FE' (0 to 254 bytes)
                     this.bLen = new byte[1];
                     this.bLen[0] = (byte)length;
                 }
