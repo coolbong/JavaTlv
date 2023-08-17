@@ -3,8 +3,8 @@ import org.junit.Test;
 
 import java.nio.charset.StandardCharsets;
 
-import static io.github.coolbong.util.Hex.toHex;
-import static io.github.coolbong.util.Hex.u2;
+import static io.github.coolbong.util.Hex.*;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class HexTest {
@@ -87,5 +87,16 @@ public class HexTest {
 
         ret = u2(arr, arr.length - 2);
         assertEquals("0304", ret);
+    }
+
+    @Test
+    public void test_to_bytes_001() {
+        String hex = "001122";
+        byte[] answer = {
+                (byte)0x00, (byte)0x11, (byte)0x22
+        };
+
+        byte[] ret = toBytes(hex);
+        assertArrayEquals(answer, ret);
     }
 }

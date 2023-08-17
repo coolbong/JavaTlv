@@ -58,8 +58,48 @@ public class TlvTest {
     }
 
     @Test
+    public void test_tlv_constructor_004() {
+        byte[] t = {(byte)0x94};
+        byte[] v = new byte[128];
+
+        Tlv tlv = new Tlv(t, v);
+
+        byte[] l = {(byte)0x81, (byte)0x80};
+
+        assertEquals("94", tlv.getTag());
+        assertEquals(128, tlv.getLength());
+        assertArrayEquals(l, tlv.getLengthBytes());
+    }
+
+    @Test
+    public void test_tlv_constructor_005() {
+        byte[] t = {(byte)0x81, (byte)0x01};
+        byte[] v = new byte[255];
+
+        Tlv tlv = new Tlv(t, v, Tlv.DGI);
+
+        byte[] l = {(byte)0xff, (byte)0x00, (byte)0xff};
+
+        assertEquals("8101", tlv.getTag());
+        assertEquals(255, tlv.getLength());
+        assertArrayEquals(l, tlv.getLengthBytes());
+    }
+
+    @Test
     public void test_tlv_print_001() {
         Tlv tlv = new Tlv("84", "315041592E5359532E4444463031");
+        tlv.print();
+    }
+
+    @Test
+    public void test_tlv_print_002() {
+        Tlv tlv = new Tlv("84", "315041592E5359532E4444463031");
+        tlv.print(2);
+    }
+
+    @Test
+    public void test_tlv_print_003() {
+        Tlv tlv = Tlv.parse("6F20840E315041592E5359532E4444463031A50E5F2D046B6F656E9F110101880101");
         tlv.print();
     }
 
@@ -334,15 +374,12 @@ public class TlvTest {
 
         Tlv tlv = Tlv.parse("8281021800");
         tlv.log(logger);
-        //tlv.print();
 
         tlv = Tlv.parse("6F3B8407A0000008781010A530500B4B4C5343204372656469748701019F38035F2A025F2D046B6F656E9F1101019F12044B4C5343BF0C059F4D02150A");
         tlv.log(logger);
-        //tlv.print();
 
         tlv = Tlv.parse("770E8202180094080801010018010200");
         tlv.log(logger);
-        //tlv.print();
 
         tlv = Tlv.parse("703F57139490192619045993D28066011902275500000F5F2014515352422F4449574C20494C4D202020202020209F1F1031393032323030373535303030303030");
         tlv.log(logger);
@@ -353,6 +390,8 @@ public class TlvTest {
         tlv = Tlv.parse("700A5F300206019F08020001");
         tlv.log(logger);
     }
+
+
 
 
 }
