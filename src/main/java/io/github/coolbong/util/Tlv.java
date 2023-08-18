@@ -12,15 +12,22 @@ public class Tlv {
     public static final int DGI = 1;
 
 
-    private final byte[] bTag;
-    private final byte[] bLen;
-    private final byte[] bValue;
-    private final int length;
+    byte[] bTag;
+    byte[] bLen;
+    byte[] bValue;
+    int length;
 
-    private final int encoding;
+    int encoding;
 
-    private final ArrayList<Tlv> child;
+    ArrayList<Tlv> child;
 
+    public Tlv() {
+        this.bTag = null;
+        this.bValue = null;
+        this.length = 0;
+        this.child = new ArrayList<>();
+        this.encoding = EMV;
+    }
 
     public Tlv(String tag, String value) {
         this(Hex.toBytes(tag), null, Hex.toBytes(value), EMV);
@@ -241,7 +248,6 @@ public class Tlv {
     }
 
     public static Tlv parse(byte[] buf, int offset, int encoding) {
-
         if (buf == null) {
             return null;
         }
