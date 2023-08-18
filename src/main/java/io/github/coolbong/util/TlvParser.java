@@ -24,12 +24,6 @@ public class TlvParser {
     }
 
 
-    public Tlv parse(String hex) {
-        byte[] arr = toBytes(hex);
-        return parse(arr, 0, Tlv.EMV);
-    }
-
-
     public byte[] parseTag(byte[] buf, int offset, int encoding) {
         int length = 1;
         int pos = offset;
@@ -46,6 +40,14 @@ public class TlvParser {
         }
 
         return Hex.slice(buf, offset, length);
+    }
+
+
+    // TODO  more wrapper api
+
+    public Tlv parse(String hex) {
+        byte[] arr = toBytes(hex);
+        return parse(arr, 0, Tlv.EMV);
     }
 
     public Tlv parse(byte[] buf, int offset, int encoding) {
