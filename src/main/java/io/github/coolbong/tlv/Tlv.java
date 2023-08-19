@@ -1,10 +1,10 @@
-package io.github.coolbong.util;
+package io.github.coolbong.tlv;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.github.coolbong.util.Hex.toHex;
+import static io.github.coolbong.tlv.Hex.toHex;
 
 public class Tlv {
 
@@ -95,18 +95,38 @@ public class Tlv {
         }
     }
 
+    /**
+     * Return the value of tag field of the Tlv.
+     *
+     * @return string value of the tag
+     */
     public String getTag() {
         return toHex(bTag);
     }
 
+    /**
+     * Return the value of tag field of the Tlv.
+     *
+     * @return byte array value of the tag
+     */
     public byte[] getTagBytes() {
         return bTag;
     }
 
+    /**
+     * Return the value of length field of the Tlv.
+     *
+     * @return length of the Tlv.
+     */
     public int getLength() {
         return length;
     }
 
+    /**
+     * Return the value of length field of the Tlv.
+     *
+     * @return byte array value of the length
+     */
     public byte[] getLengthBytes() {
         return bLen;
     }

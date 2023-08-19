@@ -1,4 +1,4 @@
-import io.github.coolbong.util.Hex;
+import io.github.coolbong.tlv.Hex;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

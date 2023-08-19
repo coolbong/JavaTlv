@@ -1,4 +1,4 @@
-import io.github.coolbong.util.Tlv;
+import io.github.coolbong.tlv.Tlv;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;

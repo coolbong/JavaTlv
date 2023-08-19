@@ -1,7 +1,7 @@
-package io.github.coolbong.util;
+package io.github.coolbong.tlv;
 
-import static io.github.coolbong.util.Hex.toBytes;
-import static io.github.coolbong.util.Hex.toHex;
+import static io.github.coolbong.tlv.Hex.toBytes;
+import static io.github.coolbong.tlv.Hex.toHex;
 
 public class TlvParser {
     private final TlvLogger logger;

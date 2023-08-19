@@ -1,4 +1,4 @@
-import io.github.coolbong.util.Tlv;
+import io.github.coolbong.tlv.Tlv;
 import logger.ConsoleLogger;
 import org.junit.Test;
 

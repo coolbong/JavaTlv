@@ -1,4 +1,4 @@
-package io.github.coolbong.util;
+package io.github.coolbong.tlv;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -23,6 +23,20 @@ public class Hex {
     public static void toBytes(String s, byte[] bArray, int offset) {
         decodeHex(s.replaceAll("\\s", "").toCharArray(), bArray, offset);
     }
+
+
+
+//    public static byte[] toBytes2(String hex) {
+//        hex = hex.replaceAll("\\s", "");
+//        int length = hex.length();
+//        if ((length & 1) != 0) {
+//            return null;
+//        }
+//        byte[] dst = new byte[hex.length()/2];
+//
+//
+//    }
+
 
     private static byte[] decodeHex(char[] data) {
         int len = data.length;
@@ -62,9 +76,9 @@ public class Hex {
         }
     }
 
+
     private static int toDigit(char ch) {
-        int digit = Character.digit(ch, 16);
-        return digit;
+        return Character.digit(ch, 16);
     }
 
 

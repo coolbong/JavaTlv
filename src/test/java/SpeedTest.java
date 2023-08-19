@@ -1,5 +1,5 @@
-import io.github.coolbong.util.Hex;
-import io.github.coolbong.util.Tlv;
+import io.github.coolbong.tlv.Hex;
+import io.github.coolbong.tlv.Tlv;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;

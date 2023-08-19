@@ -1,6 +1,6 @@
 package logger;
 
-import io.github.coolbong.util.TlvLogger;
+import io.github.coolbong.tlv.TlvLogger;
 
 public class ConsoleLogger implements TlvLogger {
     @Override

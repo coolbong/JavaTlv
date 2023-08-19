@@ -1,9 +1,9 @@
-import io.github.coolbong.util.Hex;
+import io.github.coolbong.tlv.Hex;
 import org.junit.Test;
 
 import java.nio.charset.StandardCharsets;
 
-import static io.github.coolbong.util.Hex.*;
+import static io.github.coolbong.tlv.Hex.*;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
@@ -96,6 +96,14 @@ public class HexTest {
                 (byte)0x00, (byte)0x11, (byte)0x22
         };
 
+        byte[] ret = toBytes(hex);
+        assertArrayEquals(answer, ret);
+    }
+
+    @Test
+    public void test_to_bytes_002() {
+        String hex = "babe";
+        byte[] answer = {(byte)0xba, (byte)0xbe};
         byte[] ret = toBytes(hex);
         assertArrayEquals(answer, ret);
     }

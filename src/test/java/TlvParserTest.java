@@ -1,5 +1,5 @@
-import io.github.coolbong.util.Tlv;
-import io.github.coolbong.util.TlvParser;
+import io.github.coolbong.tlv.Tlv;
+import io.github.coolbong.tlv.TlvParser;
 import logger.ConsoleLogger;
 import org.junit.Before;
 import org.junit.Test;
