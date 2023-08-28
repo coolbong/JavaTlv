@@ -3,6 +3,7 @@ import org.junit.Test;
 
 import java.nio.charset.StandardCharsets;
 
+import static io.github.coolbong.tlv.Hex.toBytes;
 import static org.junit.Assert.assertEquals;
 
 public class AsciiTest {
@@ -37,5 +38,14 @@ public class AsciiTest {
 
         String ret = Hex.toAscii(arr);
         assertEquals(plaintext, ret);
+    }
+
+
+    @Test
+    public void test_to_ascii_005() {
+        byte[] input = toBytes("404142434445464748494A4B4C4D4E4F");
+
+        String ret = Hex.toAscii(input, 1, 15);
+        assertEquals("ABCDEFGHIJKLMNO", ret);
     }
 }
