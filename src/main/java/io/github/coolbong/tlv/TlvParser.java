@@ -1,7 +1,6 @@
 package io.github.coolbong.tlv;
 
-import static io.github.coolbong.tlv.Hex.toBytes;
-import static io.github.coolbong.tlv.Hex.toHex;
+import static io.github.coolbong.tlv.Hex.*;
 
 public class TlvParser {
     private final TlvLogger logger;
@@ -45,9 +44,16 @@ public class TlvParser {
 
     // TODO  more wrapper api
 
+
+
     public Tlv parse(String hex) {
         byte[] arr = toBytes(hex);
         return parse(arr, 0, Tlv.EMV);
+    }
+
+    public Tlv parse(String hex, int encoding) {
+        byte[] arr = toBytes(hex);
+        return parse(arr, 0, encoding);
     }
 
     public Tlv parse(byte[] buf, int offset, int encoding) {
@@ -114,7 +120,7 @@ public class TlvParser {
                 bLen[0] = buf[offset];
             }
         }
-        logger.debug("[len] offset[{}] length[{}] Len:[{}]",String.format("%2d",offset), String.format("%2d", bLen.length), toHex(bLen));
+        logger.debug("[len] offset[{}] length[{}] Len:[{}]({})",String.format("%2d",offset), String.format("%2d", bLen.length), toHex(bLen), length);
         offset += number_of_bytes;
 
         if ((offset + length) > buf.length) {
@@ -130,6 +136,7 @@ public class TlvParser {
             Tlv tlv = new Tlv();
             tlv.bTag = bTag;
             tlv.bLen = bLen;
+            tlv.length = length;
             tlv.bValue = bValue; // remove?
             tlv.encoding = encoding;
             while (offset < buf.length) {
