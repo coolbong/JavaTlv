@@ -139,7 +139,9 @@ public class TlvParser {
             tlv.length = length;
             tlv.bValue = bValue; // remove?
             tlv.encoding = encoding;
-            while (offset < buf.length) {
+            //while (offset < buf.length) {
+            int bufLength = (offset + length);
+            while (offset < bufLength) {
                 Tlv child = parse(buf, offset, encoding);
                 if (child == null) {
                     logger.error("parsed child is null");
