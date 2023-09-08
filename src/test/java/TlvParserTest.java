@@ -22,6 +22,22 @@ public class TlvParserTest {
         tlv.log(logger);
     }
 
+    @Test
+    public void test_tlv_parser_002() {
+        String ppse_resp = "6F52840E325041592E5359532E4444463031A540BF0C3D611E4F07D410000001501050104B4C5343204455414C20435245444954870101611B4F07D4100000014010500D4B4C5343204A5553544F554348870102";
+        TlvParser parser = new TlvParser(logger);
+        Tlv tlv = parser.parse(ppse_resp);
+        tlv.log(logger);
+    }
+
+    @Test
+    public void test_tlv_parser_003() {
+        String pse_record = "705C61294F07D4100000015010500C4B4C534320505245504149449F120C4B4C53432050524550414944870101612F4F07D4100000011010500F4B4C5343205052505920414C4941539F120F4B4C5343205052505920414C494153870102";
+        TlvParser parser = new TlvParser(logger);
+        Tlv tlv = parser.parse(pse_record);
+        tlv.log(logger);
+    }
+
 
     @Test
     public void test_dummy_bytes_skip_001() {
@@ -30,9 +46,7 @@ public class TlvParserTest {
 
         Tlv tlv = parser.parse(gpoResp);
         tlv.log(logger);
-
     }
-
 
     @Test
     public void test_tlv_parser_err_001() {
