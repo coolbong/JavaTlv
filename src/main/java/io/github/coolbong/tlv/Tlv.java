@@ -116,25 +116,35 @@ public class Tlv {
     /**
      * Return the value of length field of the Tlv.
      *
-     * @return length of the Tlv.
+     * @return the length of the Tlv.
      */
     public int getLength() {
         return length;
     }
 
     /**
-     * Return the value of length field of the Tlv.
+     * Return the value of length field of the TLV.
      *
-     * @return byte array value of the length
+     * @return byte array of the length field of the TLV.
      */
     public byte[] getLengthBytes() {
         return bLen;
     }
 
+    /**
+     * Return the value of the value field of the TLV.
+     *
+     * @return the value field of the TLV.
+     */
     public String getValue() {
         return toHex(bValue);
     }
 
+    /**
+     * Return the value of the value field of the TLV.
+     *
+     * @return byte array of the value field of the TLV.
+     */
     public byte[] getValueBytes() {
         return bValue;
     }
