@@ -149,6 +149,11 @@ public class Tlv {
         return bValue;
     }
 
+    /**
+     * find tlv object.
+     * @param tag string value of the tag
+     * @return tlv object or null
+     */
     public Tlv find(String tag) {
         final String targetTag = Hex.strip(tag).toUpperCase();
 
@@ -169,6 +174,12 @@ public class Tlv {
         return targetTlv;
     }
 
+    /**
+     * find tlv object.
+     *
+     * @param tag string value of the tag
+     * @return the tlv list, or empty list
+     */
     public List<Tlv> findAll(String tag) {
         final String targetTag = Hex.strip(tag).toUpperCase();
 
@@ -190,6 +201,10 @@ public class Tlv {
         return this.child;
     }
 
+    /**
+     * true if the Tlv object is constructed
+     * @return true if the Tlv object is constructed and false otherwise
+     */
     public boolean isConstructed() {
         return ((this.encoding == Tlv.EMV) && ((this.bTag[0] & 0x20) == 0x20));
     }
