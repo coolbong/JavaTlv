@@ -44,5 +44,11 @@ public class TlvBuildTest {
 
         // TODO new Builder: simple, easy
 
+        Tlv tlv1 = new Tlv("DF01", "999999999999");
+        //Tlv tlv2 = new Tlv("DF02", "999999999999");
+        //Tlv tlv3 = new Tlv("DF03", "999999999999");
+        //Tlv tlv = new Tlv("3F3C", tlv1.toString() + tlv2.toString() + tlv3.toString(), Tlv.DGI);
+        Tlv tlv = new Tlv("3F3C", tlv1.toString(), Tlv.DGI);
+        tlv.print();
     }
 }

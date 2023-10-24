@@ -80,6 +80,11 @@ public class TlvParser {
         while(buf[offset] == 0) {
             offset++;
             skipCount++;
+
+            if (buf.length <= offset) {
+                logger.error("Invalid argument: offset: {}", offset);
+                return null;
+            }
         }
 
         if (skipCount!= 0) {
@@ -139,11 +144,16 @@ public class TlvParser {
             tlv.length = length;
             tlv.bValue = bValue; // remove?
             tlv.encoding = encoding;
-            //while (offset < buf.length) {
+
+            if (length < 2) {
+                return tlv; // invalid tlv
+            }
+
             int bufLength = (offset + length);
             while (offset < bufLength) {
                 Tlv child = parse(buf, offset, encoding);
                 if (child == null) {
+                    System.out.println(toHex(bValue));
                     logger.error("parsed child is null");
                     break;
                 }
