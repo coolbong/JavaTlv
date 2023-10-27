@@ -214,6 +214,11 @@ public class Hex {
         return new String(chars);
     }
 
+    public static String asciiToHex(String ascii) {
+        byte[] arr = ascii.getBytes(StandardCharsets.UTF_8);
+        return toHex(arr);
+    }
+
     public static String u1(byte[] data, int offset) {
         return toHex(data[offset]);
     }
