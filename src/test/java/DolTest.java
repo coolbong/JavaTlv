@@ -33,4 +33,20 @@ public class DolTest {
         assertEquals(tlv.getLength(), 6);
         assertEquals(tlv.getValue(), "000000000000");
     }
+
+    @Test
+    public void test_dol_test_002() {
+        //Dol.parse()
+        DolParser parser = new DolParser(logger);
+
+        int length = parser.dolRelatedDataLength("9F02069F03069F1A0295055F2A029A039C019F37049F35019F45029F3403");
+
+        System.out.println("length: " + length);
+
+
+//        assertEquals(tlv.toString(), "9F0206000000000000");
+//        assertEquals(tlv.getTag(), "9F02");
+//        assertEquals(tlv.getLength(), 6);
+//        assertEquals(tlv.getValue(), "000000000000");
+    }
 }
