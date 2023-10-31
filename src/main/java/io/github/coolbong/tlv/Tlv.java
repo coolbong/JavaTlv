@@ -367,6 +367,4 @@ public class Tlv {
 
         return Hex.slice(buf, offset, length);
     }
-
-
 }
