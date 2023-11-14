@@ -3,7 +3,7 @@ import org.junit.Test;
 
 import java.nio.charset.StandardCharsets;
 
-import static io.github.coolbong.tlv.Hex.toBytes;
+import static io.github.coolbong.tlv.Hex.*;
 import static org.junit.Assert.assertEquals;
 
 public class AsciiTest {
@@ -47,5 +47,30 @@ public class AsciiTest {
 
         String ret = Hex.toAscii(input, 1, 15);
         assertEquals("ABCDEFGHIJKLMNO", ret);
+    }
+
+
+    @Test
+    public void test_to_ascii_006() {
+        byte[] input = toBytes("9F4F119F27019F02065F2A029A039F36029F5206");
+
+        String ret = toAscii(input);
+        //assertEquals("", ret);
+    }
+
+
+    @Test
+    public void test_ascii_to_hex_001() {
+        String input = "hello world";
+        String ret = asciiToHex(input);
+        assertEquals("68656C6C6F20776F726C64", ret);
+    }
+
+
+    @Test
+    public void test_ascii_to_hex_002() {
+        String input = "Debit MasterCard";
+        String ret = asciiToHex(input);
+        assertEquals("4465626974204D617374657243617264", ret);
     }
 }

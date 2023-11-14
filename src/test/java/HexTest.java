@@ -4,8 +4,7 @@ import org.junit.Test;
 import java.nio.charset.StandardCharsets;
 
 import static io.github.coolbong.tlv.Hex.*;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class HexTest {
 
@@ -89,6 +88,58 @@ public class HexTest {
         assertEquals("0304", ret);
     }
 
+
+    @Test
+    public void test_hex_un_001() {
+        byte[] arr = { (byte)0xA0, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x04, (byte)0x10, (byte)0x10 };
+
+        String ret;
+
+        ret = un(arr, 0, 2);
+        assertEquals("A000", ret);
+
+        ret = un(arr, 0, 4);
+        assertEquals("A0000000", ret);
+
+        ret = un(arr, 4, 3);
+        assertEquals("041010", ret);
+    }
+
+
+    @Test
+    public void test_hex_setshort_001() {
+        byte[] arr = { (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00,(byte)0x00, (byte)0x00 };
+
+        byte[] answer = { (byte)0x11, (byte)0x11, (byte)0x00, (byte)0x00,(byte)0x00, (byte)0x00 };
+
+        setShort(arr, 0, 0x1111);
+
+        assertArrayEquals(answer, arr);
+    }
+
+    @Test
+    public void test_hex_toint_001() {
+        byte[] arr = {(byte)0x00, (byte)0x00, (byte)0x01, (byte)0x00};
+
+        int answer = 256;
+        int ret = toInt(arr);
+        assertEquals(ret, answer);
+
+
+        arr[2] = 0;
+        arr[3] = 0x7f;
+        answer = 127;
+        ret = toInt(arr);
+        assertEquals(ret, answer);
+
+        arr[1] = 1;
+        arr[2] = 0;
+        arr[3] = 0x00;
+        answer = 65536;
+        ret = toInt(arr);
+        assertEquals(ret, answer);
+    }
+
     @Test
     public void test_to_bytes_001() {
         String hex = "001122";
@@ -107,4 +158,36 @@ public class HexTest {
         byte[] ret = toBytes(hex);
         assertArrayEquals(answer, ret);
     }
+
+
+    @Test
+    public void test_to_bytes_003() {
+        short input = (short)0xbab0;
+        byte[] answer = {(byte)0xba, (byte)0xb0};
+        byte[] ret = toBytes(input);
+        assertArrayEquals(answer, ret);
+    }
+
+    @Test
+    public void test_to_bytes_004() {
+        String input = "82027800";
+        byte[] answer = {(byte)0x82, (byte)0x02, (byte)0x78, (byte)0x00};
+        byte[] ret = new byte[4];
+        toBytes(input, ret, 0);
+        assertArrayEquals(answer, ret);
+    }
+
+    @Test
+    public void test_to_bytes_005() {
+        // invalid odd hex string
+        String input = "1122334";
+        byte[] ret = toBytes(input);
+        assertNull(ret);
+    }
+
+
+
+
+
+
 }
