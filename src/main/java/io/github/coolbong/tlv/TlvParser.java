@@ -53,7 +53,8 @@ public class TlvParser {
 
     public Tlv parse(String hex, int encoding) {
         byte[] arr = toBytes(hex);
-        return parse(arr, 0, encoding);
+        Tlv tlv = parse(arr, 0, encoding);
+        return tlv;
     }
 
     public Tlv parse(byte[] buf, int offset, int encoding) {
@@ -72,8 +73,8 @@ public class TlvParser {
              return null;
          }
 
-         logger.debug("start tlv parse ----------------------------------------------------------------------------");
-         logger.debug("buffer offset: {} length: {} encoding: {}", offset, buf.length, (encoding == Tlv.EMV) ? "emv" : "dgi");
+         //logger.debug("start tlv parse ----------------------------------------------------------------------------");
+         //logger.debug("buffer offset: {} length: {} encoding: {}", offset, buf.length, (encoding == Tlv.EMV) ? "emv" : "dgi");
 
         // skip dummy byte (zero byte)
         int skipCount = 0;
@@ -94,7 +95,7 @@ public class TlvParser {
         byte[] bTag;
         bTag = parseTag(buf, offset, encoding);
         boolean isConstructed = ((encoding == Tlv.EMV) && ((bTag[0] & 0x20) == 0x20));
-        logger.debug("[tag] offset[{}] length[{}] Tag:[{}] is constructed: {}", String.format("%2d",offset), String.format("%2d", bTag.length), toHex(bTag), isConstructed);
+        //logger.debug("[tag] offset[{}] length[{}] Tag:[{}] is constructed: {}", String.format("%2d",offset), String.format("%2d", bTag.length), toHex(bTag), isConstructed);
 
         offset += bTag.length;
 
@@ -125,7 +126,7 @@ public class TlvParser {
                 bLen[0] = buf[offset];
             }
         }
-        logger.debug("[len] offset[{}] length[{}] Len:[{}]({})",String.format("%2d",offset), String.format("%2d", bLen.length), toHex(bLen), length);
+        //logger.debug("[len] offset[{}] length[{}] Len:[{}]({})",String.format("%2d",offset), String.format("%2d", bLen.length), toHex(bLen), length);
         offset += number_of_bytes;
 
         if ((offset + length) > buf.length) {
@@ -134,8 +135,17 @@ public class TlvParser {
         }
 
         byte[] bValue = Hex.slice(buf, offset, length);
-        logger.debug("[val] offset[{}] length[{}] Val:[{}]",String.format("%2d",offset), String.format("%2d", bValue.length), toHex(bValue));
+        //logger.debug("[val] offset[{}] length[{}] Val:[{}]",String.format("%2d",offset), String.format("%2d", bValue.length), toHex(bValue));
         //return new Tlv(bTag, bLen, bValue, encoding);
+        if (encoding == Tlv.DGI) {
+            logger.debug("<dgi id=\"{}\">", toHex(bTag));
+        } else {
+            if (isConstructed) {
+                logger.debug("<tlv tag=\"{}\">", toHex(bTag));
+            } else {
+                logger.debug("<tlv tag=\"{}\" value=\"{}\" />", toHex(bTag), toHex(bValue));
+            }
+        }
 
         if (isConstructed) {
             Tlv tlv = new Tlv();
@@ -160,8 +170,10 @@ public class TlvParser {
                 offset += child.getSize();
                 tlv.child.add(child);
             }
+            logger.debug("</tlv>", toHex(bTag));
             return tlv;
         } else {
+            //logger.debug("</dgi>");
             return new Tlv(bTag, bLen, bValue, encoding);
         }
     }
