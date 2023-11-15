@@ -26,25 +26,20 @@ public class TlvParser {
     public byte[] parseTag(byte[] buf, int offset, int encoding) {
         int length = 1;
         int pos = offset;
-        if (encoding == Tlv.EMV) {
+
+        if (encoding == Tlv.DGI) {
+            length = 2;
+        } else {
             if ((buf[pos++] & 0x1f) == 0x1f) { // subsequent byte
                 do {
                     length++;
                 } while ((buf[pos++] & 0x80) == 0x80);
             }
-        } else if (encoding == Tlv.DGI) {
-            length = 2; // dgi tag length 2 byte
-        } else {
-            logger.error("{} encoding is not supported ", encoding);
         }
 
         return Hex.slice(buf, offset, length);
     }
-
-
     // TODO  more wrapper api
-
-
 
     public Tlv parse(String hex) {
         if (hex == null) {

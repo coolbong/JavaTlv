@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+import static io.github.coolbong.tlv.Hex.toBytes;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -465,8 +466,58 @@ public class DgiTest {
     public void tlv_dgi_test_negative_001() {
         TlvParser parser = new TlvParser(logger);
         Tlv tlv = parser.parse(null);
-
         assertNull(tlv);
     }
 
+    @Test
+    public void tlv_dgi_test_negative_002() {
+        TlvParser parser = new TlvParser(logger);
+        Tlv tlv = parser.parse(null, Tlv.EMV);
+        assertNull(tlv);
+    }
+
+    @Test
+    public void tlv_dgi_test_negative_003() {
+        TlvParser parser = new TlvParser(logger);
+        // null buffer
+        Tlv tlv = parser.parse(null, 0, Tlv.EMV);
+        assertNull(tlv);
+    }
+
+    @Test
+    public void tlv_dgi_test_negative_004() {
+        TlvParser parser = new TlvParser(logger);
+        byte[] input = toBytes("82021900");
+        // wrong offset
+        Tlv tlv = parser.parse(input, 10, Tlv.EMV);
+        assertNull(tlv);
+    }
+
+    @Test
+    public void tlv_dgi_test_negative_005() {
+        TlvParser parser = new TlvParser(logger);
+        byte[] input = toBytes("82021900");
+        // wrong encoding
+        Tlv tlv = parser.parse(input, 0, 4);
+        assertNull(tlv);
+    }
+
+    @Test
+    public void tlv_dgi_test_no_logger_001() {
+        TlvParser parser = new TlvParser();
+        byte[] input = toBytes("82021900");
+        Tlv tlv = parser.parse(input, 0, Tlv.EMV);
+
+        assertEquals("82", tlv.getTag());
+        assertEquals(2, tlv.getLength());
+        assertEquals("1900", tlv.getValue());
+    }
+
+    @Test
+    public void tlv_dgi_test_no_logger_002() {
+        TlvParser parser = new TlvParser();
+        // null buffer
+        Tlv tlv = parser.parse(null, 0, Tlv.EMV);
+        assertNull(tlv);
+    }
 }
