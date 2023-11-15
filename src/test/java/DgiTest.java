@@ -6,6 +6,7 @@ import org.junit.Test;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class DgiTest {
 
@@ -447,10 +448,25 @@ public class DgiTest {
         //3000795F280204109F10200FA501000000000000000000000000000F0000000000000000000000000000009F4D02150A9F4F139F02065F2A029A039F52059F36029F2701CA01C104C108DE10C202F003C506FFFFFFFF0000C7020000C8140000000000000000000000000000000000000000D40180DF110400100000
         tlv = new Tlv("20", "5F280204109F10200FA501000000000000000000000000000F0000000000000000000000000000009F4D02150A9F4F139F02065F2A029A039F52059F36029F2701CA01C104C108DE10C202F003C506FFFFFFFF0000C7020000C8140000000000000000000000000000000000000000D40180DF110400100000");
         tlv.log(logger);
+    }
 
+    @Test
+    public void tlv_dgi_multibyte_length_test_0001() {
+        TlvParser parser = new TlvParser(logger);
+        Tlv tlv = parser.parse("0101FF0022702057125981786067381230D29125010000000000005F20094B4C53432043415244", Tlv.DGI);
+        //tlv.log(logger);
 
+        assertEquals("0101", tlv.getTag());
+        assertEquals(34, tlv.getLength());
+        assertEquals("702057125981786067381230D29125010000000000005F20094B4C53432043415244", tlv.getValue());
+    }
 
+    @Test
+    public void tlv_dgi_test_negative_001() {
+        TlvParser parser = new TlvParser(logger);
+        Tlv tlv = parser.parse(null);
 
+        assertNull(tlv);
     }
 
 }
