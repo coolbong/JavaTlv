@@ -11,6 +11,8 @@ public class Tlv {
     public static final int EMV = 0;
     public static final int DGI = 1;
 
+    public static final int FILLER = 99;
+
 
     byte[] bTag;
     byte[] bLen;
@@ -298,10 +300,21 @@ public class Tlv {
         }
         // if (buf.length < offset) // prevent array out of bound exception
 
+
         // skip dummy byte (zero byte)
+        int skipCount = 0;
         while(buf[offset] == 0) {
             offset++;
+            skipCount++;
+            if (buf.length <= offset) {
+                break;
+            }
         }
+
+        if (skipCount != 0) {
+            return new Filler(skipCount);
+        }
+
 
         byte[] bTag;
         bTag = parseTag(buf, offset, encoding);
