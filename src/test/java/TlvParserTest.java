@@ -1,5 +1,6 @@
 import io.github.coolbong.tlv.Tlv;
 import io.github.coolbong.tlv.TlvParser;
+import junit.framework.Assert;
 import logger.ConsoleLogger;
 import org.junit.Before;
 import org.junit.Test;
@@ -73,10 +74,18 @@ public class TlvParserTest {
         TlvParser parser = new TlvParser(logger);
         Tlv tlv = parser.parse(resp);
         tlv.log(logger);
-
-        //Tlv tlv = Tlv.parse(resp);
-        //tlv.print();
     }
+
+    @Test
+    public void test_tlv_parser_err_004() {
+        // invalid '6F' length
+        String resp = "6F398407D4100000015010A52D50084E4557204B4C53439F38035F2A028701015F2D046B6F656E9F1101019F12044B4C5343BF0C059F4D02150A";
+        TlvParser parser = new TlvParser(logger);
+        Tlv tlv = parser.parse(resp);
+
+        Assert.assertNull(tlv);
+    }
+
 
 
     @Test
