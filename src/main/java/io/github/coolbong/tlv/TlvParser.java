@@ -131,7 +131,8 @@ public class TlvParser {
         offset += number_of_bytes;
 
         if ((offset + length) > buf.length) {
-            logger.error("Invalid Data: value info offset: {} length: {}, (offset + length) >  buf.length" );
+            logger.error("Invalid Data: value info offset: {} length: {}, (offset + length)[{}] >  buf.length[{}]", offset, length, (offset+length), buf.length);
+            logger.error("Invalid Data: Tag: {} length: {}", toHex(bTag),  toHex(bLen));
             return null;
         }
 
