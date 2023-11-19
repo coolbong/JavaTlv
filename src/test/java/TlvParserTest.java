@@ -91,23 +91,17 @@ public class TlvParserTest {
 
     @Test
     public void test_tlv_parser_err_005() {
-        //code data: exception OrderedDict([('method', 'receive_frame'), ('name', 'SELECT_ADF 1'), ('capdu', '00A4040007D410000001501000'), ('rapdu', '6F398407D4100000015010A52D50084E4557204B4C53439F38035F2A028701015F2D046B6F656E9F1101019F12044B4C5343BF0C059F4D02150A9000')])
-        //Traceback (most recent call last):
-        //  File "D:\dev\github\tmt\tools\TcGenerator\main.py", line 185, in code_data
-        //    tlv = Tlv.parse(rapdu)
-        //          ^^^^^^^^^^^^^^^^
-        //  File "D:\dev\github\tmt\tools\TcGenerator\tlv2.py", line 218, in parse
-        //    return Tlv(b_tag, b_value)
-        //           ^^^^^^^^^^^^^^^^^^^
-        //  File "D:\dev\github\tmt\tools\TcGenerator\tlv2.py", line 29, in __init__
-        //    child = Tlv.parse(self._value[offset:])
-        //            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        //  File "D:\dev\github\tmt\tools\TcGenerator\tlv2.py", line 185, in parse
-        //    number_of_bytes = buf[offset] & 0x7F
-        //                      ~~~^^^^^^^^
-        //IndexError: index out of range
+        // ('name', 'SELECT_ADF 1'),
+        // ('capdu', '00A4040007D410000001501000'),
+        // ('rapdu', '6F398407D4100000015010A52D50084E4557204B4C53439F38035F2A028701015F2D046B6F656E9F1101019F12044B4C5343BF0C059F4D02150A9000')])
 
+        String resp = "6F398407D4100000015010A52D50084E4557204B4C53439F38035F2A028701015F2D046B6F656E9F1101019F12044B4C5343BF0C059F4D02150A";
+        TlvParser parser = new TlvParser(logger);
+        Tlv tlv = parser.parse(resp);
+
+        assertNull(tlv);
     }
+
 
 
 
