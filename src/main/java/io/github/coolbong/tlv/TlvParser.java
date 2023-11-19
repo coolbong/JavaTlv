@@ -12,8 +12,13 @@ public class TlvParser {
             }
 
             @Override
-            public void error(String format, Object... args) {
+            public void warn(String format, Object... args) {
+                //System.out.println();
+            }
 
+            @Override
+            public void error(String format, Object... args) {
+                //System.out.println();
             }
         };
     }
@@ -54,8 +59,7 @@ public class TlvParser {
             return null;
         }
         byte[] arr = toBytes(hex);
-        Tlv tlv = parse(arr, 0, encoding);
-        return tlv;
+        return parse(arr, 0, encoding);
     }
 
     public Tlv parse(byte[] buf, int offset, int encoding) {
@@ -84,13 +88,14 @@ public class TlvParser {
             skipCount++;
 
             if (buf.length <= offset) {
-                logger.error("Invalid argument: offset: {}", offset);
-                return null;
+                logger.warn("Invalid argument: offset is bigger than buffer length: offset: {}", offset);
+                break;//return null;
             }
         }
 
         if (skipCount!= 0) {
-            logger.debug("skip dummy bytes offset: {} length: {}", (offset - skipCount), skipCount);
+            logger.debug("zero dummy data: build Filler bytes offset: {} length: {}", (offset - skipCount), skipCount);
+            return new Filler(skipCount);
         }
 
         byte[] bTag;

@@ -298,8 +298,6 @@ public class Tlv {
         if (buf == null) {
             return null;
         }
-        // if (buf.length < offset) // prevent array out of bound exception
-
 
         // skip dummy byte (zero byte)
         int skipCount = 0;
