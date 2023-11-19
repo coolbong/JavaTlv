@@ -102,6 +102,19 @@ public class TlvParserTest {
         assertNull(tlv);
     }
 
+    @Test
+    public void test_tlv_parser_err_006() {
+        // ('capdu', '00A4040007A000000878101000'),
+        // ('rapdu', '6F388407A0000008781010A52D50084E4557204B4C53439F38025F2A028701015F2D046B6F656E9F1101019F12044B4C5343BF0C059F4D02150A9000')])
+
+        String resp = "6F388407A0000008781010A52D50084E4557204B4C53439F38025F2A028701015F2D046B6F656E9F1101019F12044B4C5343BF0C059F4D02150A";
+        TlvParser parser = new TlvParser(logger);
+        Tlv tlv = parser.parse(resp);
+
+        assertNull(tlv);
+    }
+
+
 
 
 
