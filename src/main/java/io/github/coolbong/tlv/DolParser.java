@@ -16,8 +16,13 @@ public class DolParser {
             }
 
             @Override
-            public void error(String format, Object... args) {
+            public void warn(String format, Object... args) {
+                //System.out.println();
+            }
 
+            @Override
+            public void error(String format, Object... args) {
+                //System.out.println();
             }
         };
     }
