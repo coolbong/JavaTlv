@@ -5,6 +5,9 @@ import logger.ConsoleLogger;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 public class TlvParserTest {
 
     private ConsoleLogger logger;
@@ -83,7 +86,27 @@ public class TlvParserTest {
         TlvParser parser = new TlvParser(logger);
         Tlv tlv = parser.parse(resp);
 
-        Assert.assertNull(tlv);
+        assertNull(tlv);
+    }
+
+    @Test
+    public void test_tlv_parser_err_005() {
+        //code data: exception OrderedDict([('method', 'receive_frame'), ('name', 'SELECT_ADF 1'), ('capdu', '00A4040007D410000001501000'), ('rapdu', '6F398407D4100000015010A52D50084E4557204B4C53439F38035F2A028701015F2D046B6F656E9F1101019F12044B4C5343BF0C059F4D02150A9000')])
+        //Traceback (most recent call last):
+        //  File "D:\dev\github\tmt\tools\TcGenerator\main.py", line 185, in code_data
+        //    tlv = Tlv.parse(rapdu)
+        //          ^^^^^^^^^^^^^^^^
+        //  File "D:\dev\github\tmt\tools\TcGenerator\tlv2.py", line 218, in parse
+        //    return Tlv(b_tag, b_value)
+        //           ^^^^^^^^^^^^^^^^^^^
+        //  File "D:\dev\github\tmt\tools\TcGenerator\tlv2.py", line 29, in __init__
+        //    child = Tlv.parse(self._value[offset:])
+        //            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        //  File "D:\dev\github\tmt\tools\TcGenerator\tlv2.py", line 185, in parse
+        //    number_of_bytes = buf[offset] & 0x7F
+        //                      ~~~^^^^^^^^
+        //IndexError: index out of range
+
     }
 
 
@@ -91,6 +114,19 @@ public class TlvParserTest {
     @Test
     public void test_tlv_filler_bytes_001() {
         String resp = "7081F857139409119700015643D49126012000014000000F0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+        TlvParser parser = new TlvParser(logger);
+        Tlv tlv = parser.parse(resp);
+
+        assertEquals("70", tlv.getTag());
+        assertEquals(0x00f8, tlv.getLength());
+        assertEquals("57139409119700015643D49126012000014000000F0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", tlv.getValue());
+
+        tlv = tlv.find("57");
+        assertEquals("57", tlv.getTag());
+        assertEquals(0x13, tlv.getLength());
+        assertEquals("9409119700015643D49126012000014000000F", tlv.getValue());
+
     }
+
 
 }

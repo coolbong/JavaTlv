@@ -88,13 +88,14 @@ public class TlvParser {
             skipCount++;
 
             if (buf.length <= offset) {
-                logger.warn("Invalid argument: offset is bigger than buffer length: offset: {}", offset);
+                logger.warn("Warning: offset is bigger than buffer length: offset: {}", offset);
                 break;//return null;
             }
         }
 
         if (skipCount!= 0) {
-            logger.debug("zero dummy data: build Filler bytes offset: {} length: {}", (offset - skipCount), skipCount);
+            //logger.debug("zero dummy data: build Filler bytes offset: {} length: {}", (offset - skipCount), skipCount);
+            logger.debug("[Fil] offset[{}] length[{}]", String.format("%2d",(offset - skipCount)), String.format("%2d", skipCount));
             return new Filler(skipCount);
         }
 
