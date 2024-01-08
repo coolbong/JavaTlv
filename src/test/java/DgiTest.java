@@ -1,6 +1,7 @@
 import io.github.coolbong.tlv.Tlv;
+import io.github.coolbong.tlv.TlvLogger;
 import io.github.coolbong.tlv.TlvParser;
-import logger.ConsoleLogger;
+import logger.DummyLogger;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,11 +13,11 @@ import static org.junit.Assert.assertNull;
 public class DgiTest {
 
 
-    private ConsoleLogger logger;
+    private TlvLogger logger;
 
     @Before
     public void setUp() {
-        logger = new ConsoleLogger();
+        logger = new DummyLogger();
     }
 
 
@@ -406,19 +407,15 @@ public class DgiTest {
 
         TlvParser parser = new TlvParser(logger);
         Tlv tlv = parser.parse("010132703061164F07A000000878101050084E4557204B4C534387010161164F07D410000001101050084F4C44204B4C5343870102", Tlv.DGI);
-        tlv.log(logger);
 
         assertEquals("0101", tlv.getTag());
         assertEquals(50, tlv.getLength());
         assertEquals("703061164F07A000000878101050084E4557204B4C534387010161164F07D410000001101050084F4C44204B4C5343870102", tlv.getValue());
 
         tlv = parser.parse(tlv.getValue());
-        tlv.log(logger);
         assertEquals("70", tlv.getTag());
         assertEquals(48, tlv.getLength());
         assertEquals("61164F07A000000878101050084E4557204B4C534387010161164F07D410000001101050084F4C44204B4C5343870102", tlv.getValue());
-
-        tlv.print();
     }
 
     @Test
@@ -455,7 +452,6 @@ public class DgiTest {
     public void tlv_dgi_multibyte_length_test_0001() {
         TlvParser parser = new TlvParser(logger);
         Tlv tlv = parser.parse("0101FF0022702057125981786067381230D29125010000000000005F20094B4C53432043415244", Tlv.DGI);
-        //tlv.log(logger);
 
         assertEquals("0101", tlv.getTag());
         assertEquals(34, tlv.getLength());

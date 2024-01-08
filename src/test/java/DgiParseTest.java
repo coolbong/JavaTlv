@@ -1,16 +1,21 @@
 import io.github.coolbong.tlv.Tlv;
+import io.github.coolbong.tlv.TlvLogger;
 import io.github.coolbong.tlv.TlvParser;
 import logger.ConsoleLogger;
+import logger.DummyLogger;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 public class DgiParseTest {
 
-    private ConsoleLogger logger;
+    private TlvLogger logger;
 
     @Before
     public void setUp() {
-        logger = new ConsoleLogger();
+        //logger = new ConsoleLogger();
+        logger = new DummyLogger();
     }
 
 
@@ -27,43 +32,38 @@ public class DgiParseTest {
         Tlv tlv;
         parser = new TlvParser(logger);
         tlv = parser.parse("010122702057125981786067381230D29125010000000000005F20094B4C53432043415244", Tlv.DGI);
-        parser.parse(tlv.getValue());
-        System.out.println("</dgi>");
+        Tlv child = parser.parse(tlv.getValue());
+
+        assertEquals("70", child.getTag());
+        assertEquals(0x20, child.getLength());
 
         parser = new TlvParser(logger);
         tlv = parser.parse("0201B67081B39081B046F84655ABEBF98E2054683B97C68580537E730EC535A2C1AF945435E2E8A1F8F58FA64E042C675FDF9F16A24D9B7B714F027211E479F8A860BC29C4F825EA5830B7556BA1D2D8B085DE52DAD12EF56B067BCD2EE925B0252812B216B603E4939453259C1E6906C178A9B126C45881B1BFE4809FD1093F612BE4F713B5664403B323DE035444C03040DA3885E531D9B30853F2CC56813D992AA9AA580EE5C282AAB39F465B5C4824D7B5AF7EF33ACF68", Tlv.DGI);
         parser.parse(tlv.getValue());
-        System.out.println("</dgi>");
 
         parser = new TlvParser(logger);
         tlv = parser.parse("02026670649F3201039224553FE6BE25C910D32A24FE9B421E6231FB4EF77418FC5544D3D67CF7035555F05340D8F38F01019F4701039F482A0ABF318E3218D4C7CE268130E7FA9568AE41FDFF30AAEA95CB58AED64CB47CADECA6C07F659669923D9D9F49039F3704", Tlv.DGI);
         parser.parse(tlv.getValue());
-        System.out.println("</dgi>");
 
         parser = new TlvParser(logger);
         tlv = parser.parse("0203B77081B49F4681B0881BDCCFA351C71F0883868A801F82A33F9288CD3F6B0886C38D1B9B3C26664104BBA89C245B0D6B7CC62786EF8F8BD7283126D33A575C9300A2815CEFCD926B0606C1F07ACCF515A87FD3E5641B7AE9611ECDE77F23483C0AD55A2F3C30432431DC92A6A30D5AAAC964B6043FA38A8E614AEE3A0E1A37CB8957A47E3F67530D41DBE7B2CA60EAE4B0FD1FA5ED662F8AA108F2B89A32F8E4C14A7A9632729187D33945341CDD2FE75C59F9AFF8912881", Tlv.DGI);
         parser.parse(tlv.getValue());
-        System.out.println("</dgi>");
 
         parser = new TlvParser(logger);
         tlv = parser.parse("0204B77081B49F2D81B04B7F2D09299377249E2074D1853D935C384AA52EE44538B5656E187A0D8EE3DD5EA87571EF5A3B3F6060E056C64C137B47D92861A1D73ABEC54280AD0C97A87ADC15363B184DB5ED80B70FFC90A536EF01D65893F911822CAA51C023A32760148DBB45F191BA8922DBF50C83C19A29BECE568C1BBADCF976C019E99EA1883957C329F78D164F0E0C84B96FABF8F7B160AAD4D8DBFFDA77B6875A243D311D6E3D0B144DA102620286E406C860293D3925", Tlv.DGI);
         parser.parse(tlv.getValue());
-        System.out.println("</dgi>");
 
         parser = new TlvParser(logger);
         tlv = parser.parse("02053570339F2E030100019F2F2A8404AB222A8CF31AF027335CAFF39F8263BE2B4CF99C11A929E128FAD5690AEF797D7771545A1D36F0E7", Tlv.DGI);
         parser.parse(tlv.getValue());
-        System.out.println("</dgi>");
 
         parser = new TlvParser(logger);
         tlv = parser.parse("03017E707C5F24032912315F25032001015A0859817860673812355F3401019F0702AB008C1B9F02069F03069F1A0295055F2A029A039C019F37049F35019F34038D0991088A0295059F37048E12000000000000000002011E03020341031F009F0D0500000000009F0E0500000000009F0F0500000000005F280204109F4A0182", Tlv.DGI);
         parser.parse(tlv.getValue());
-        System.out.println("</dgi>");
 
         parser = new TlvParser(logger);
         tlv = parser.parse("03020C700A5F300205019F08020001", Tlv.DGI);
         parser.parse(tlv.getValue());
-        System.out.println("</dgi>");
 
         parser = new TlvParser(logger);
         tlv = parser.parse("1E010908020102FF01000181", Tlv.DGI);
@@ -93,19 +93,16 @@ public class DgiParseTest {
         tlv = parser.parse("1D01 3C 8407D4100000011010 910102 A5 29 50 08 4E4557204B4C5343 9F38 02 8101 870101 5F2D046B6F656E 9F11 01 01 9F12044B4C5343 9F4D02150AE103C10101", Tlv.DGI);
         tlv = new Tlv("20", tlv.getValue());
         parser.parse(tlv.toString());
-        System.out.println("</dgi>");
 
         parser = new TlvParser(logger);
         tlv = parser.parse("1D023C8407D4100000018000910102A52950084E4557204B4C53439F380281018701025F2D046B6F656E9F1101019F12044B4C53439F4D02150AE103C10102", Tlv.DGI);
         tlv = new Tlv("20", tlv.getValue());
         parser.parse(tlv.toString());
-        System.out.println("</dgi>");
 
         parser = new TlvParser(logger);
         tlv = parser.parse("1D033C8407D4100000019000910102A52950084E4557204B4C53439F380281018701035F2D046B6F656E9F1101019F12044B4C53439F4D02150AE103C10103", Tlv.DGI);
         tlv = new Tlv("20", tlv.getValue());
         parser.parse(tlv.toString());
-        System.out.println("</dgi>");
 
         parser = new TlvParser(logger);
         tlv = parser.parse("3F304BBF3048DF0106000000000000DF0206000000000000DF1118999999999999999999999999999999999999999999999999DF1218999999999999999999999999999999999999999999999999", Tlv.DGI);

@@ -67,11 +67,19 @@ public class TlvBuildTest {
         // TODO new Builder: simple, easy
 
         Tlv tlv1 = new Tlv("DF01", "999999999999");
-        //Tlv tlv2 = new Tlv("DF02", "999999999999");
-        //Tlv tlv3 = new Tlv("DF03", "999999999999");
-        //Tlv tlv = new Tlv("3F3C", tlv1.toString() + tlv2.toString() + tlv3.toString(), Tlv.DGI);
-        Tlv tlv = new Tlv("3F3C", tlv1.toString(), Tlv.DGI);
-        tlv.print();
+        Tlv tlv2 = new Tlv("DF02", "999999999999");
+        Tlv tlv3 = new Tlv("DF03", "999999999999");
+
+
+        Tlv dgi1 = new Tlv("3F3C", tlv1.toString(), Tlv.DGI);
+        assertEquals("3F3C09DF0106999999999999", dgi1.toString());
+
+        Tlv dgi2 = new Tlv("3F3C", tlv1.toString() + tlv2.toString(), Tlv.DGI);
+        assertEquals("3F3C12DF0106999999999999DF0206999999999999", dgi2.toString());
+
+        Tlv dgi3 = new Tlv("3F3C", tlv1.toString() + tlv2.toString() + tlv3.toString(), Tlv.DGI);
+        assertEquals("3F3C1BDF0106999999999999DF0206999999999999DF0306999999999999", dgi3.toString());
+
     }
 
 

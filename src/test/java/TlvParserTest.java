@@ -1,7 +1,9 @@
 import io.github.coolbong.tlv.Tlv;
+import io.github.coolbong.tlv.TlvLogger;
 import io.github.coolbong.tlv.TlvParser;
 import junit.framework.Assert;
 import logger.ConsoleLogger;
+import logger.DummyLogger;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,11 +12,11 @@ import static org.junit.Assert.assertNull;
 
 public class TlvParserTest {
 
-    private ConsoleLogger logger;
+    private TlvLogger logger;
 
     @Before
     public void setUp() {
-         logger = new ConsoleLogger();
+         logger = new DummyLogger();
     }
 
 
@@ -127,7 +129,6 @@ public class TlvParserTest {
         assertEquals("57", tlv.getTag());
         assertEquals(0x13, tlv.getLength());
         assertEquals("9409119700015643D49126012000014000000F", tlv.getValue());
-
     }
 
 

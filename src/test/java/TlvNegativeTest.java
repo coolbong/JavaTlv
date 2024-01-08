@@ -1,6 +1,8 @@
 import io.github.coolbong.tlv.Tlv;
+import io.github.coolbong.tlv.TlvLogger;
 import io.github.coolbong.tlv.TlvParser;
 import logger.ConsoleLogger;
+import logger.DummyLogger;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,11 +11,11 @@ import static junit.framework.TestCase.assertNull;
 
 public class TlvNegativeTest {
 
-    private ConsoleLogger logger;
+    private TlvLogger logger;
 
     @Before
     public void setUp() {
-        logger = new ConsoleLogger();
+        logger = new DummyLogger();
     }
 
     @Test

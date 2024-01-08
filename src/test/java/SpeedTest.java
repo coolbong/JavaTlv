@@ -25,7 +25,7 @@ public class SpeedTest {
 
     @Test
     public void speed_test_000() {
-        System.out.println("Start time");
+        //System.out.println("Start time");
     }
 
     @Test
@@ -42,7 +42,7 @@ public class SpeedTest {
         }
         Instant afterTime = Instant.now();
         long diffTime = Duration.between(beforeTime, afterTime).toMillis(); // 두 개의 실행 시간
-        System.out.println("실행 시간(ms): " + diffTime);
+        //System.out.println("실행 시간(ms): " + diffTime);
         //long duration = System.currentTimeMillis() - start;
         //System.out.println("speed_test_001: " + duration + "ms");
     }
@@ -60,7 +60,7 @@ public class SpeedTest {
         }
         Instant afterTime = Instant.now();
         long diffTime = Duration.between(beforeTime, afterTime).toMillis(); // 두 개의 실행 시간
-        System.out.println("실행 시간(ms): " + diffTime);
+        //System.out.println("실행 시간(ms): " + diffTime);
         //long duration = System.currentTimeMillis() - start;
         //System.out.println("speed_test_001: " + duration + "ms");
     }
@@ -78,7 +78,7 @@ public class SpeedTest {
         }
         Instant afterTime = Instant.now();
         long diffTime = Duration.between(beforeTime, afterTime).toMillis(); // 두 개의 실행 시간
-        System.out.println("실행 시간(ms): " + diffTime);
+        //System.out.println("실행 시간(ms): " + diffTime);
         //long duration = System.currentTimeMillis() - start;
         //System.out.println("speed_test_001: " + duration + "ms");
     }
@@ -96,7 +96,7 @@ public class SpeedTest {
         }
         Instant afterTime = Instant.now();
         long diffTime = Duration.between(beforeTime, afterTime).toMillis(); // 두 개의 실행 시간
-        System.out.println("실행 시간(ms): " + diffTime);
+        //System.out.println("실행 시간(ms): " + diffTime);
         //long duration = System.currentTimeMillis() - start;
         //System.out.println("speed_test_001: " + duration + "ms");
     }
@@ -114,7 +114,7 @@ public class SpeedTest {
         }
         Instant afterTime = Instant.now();
         long diffTime = Duration.between(beforeTime, afterTime).toMillis(); // 두 개의 실행 시간
-        System.out.println("실행 시간(ms): " + diffTime);
+        //System.out.println("실행 시간(ms): " + diffTime);
         //long duration = System.currentTimeMillis() - start;
         //System.out.println("speed_test_001: " + duration + "ms");
     }
@@ -132,7 +132,7 @@ public class SpeedTest {
         }
         Instant afterTime = Instant.now();
         long diffTime = Duration.between(beforeTime, afterTime).toMillis(); // 두 개의 실행 시간
-        System.out.println("실행 시간(ms): " + diffTime);
+        //System.out.println("실행 시간(ms): " + diffTime);
         //long duration = System.currentTimeMillis() - start;
         //System.out.println("speed_test_001: " + duration + "ms");
     }
@@ -146,7 +146,7 @@ public class SpeedTest {
         }
         Instant afterTime = Instant.now();
         long diffTime = Duration.between(beforeTime, afterTime).toMillis(); // 두 개의 실행 시간
-        System.out.println("실행 시간(ms): " + diffTime);
+        //System.out.println("실행 시간(ms): " + diffTime);
     }
 
 }

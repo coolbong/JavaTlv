@@ -260,8 +260,8 @@ public class Tlv {
         }
     }
 
-    public void log(TlvLogger TlvLogger) {
-        log(0, TlvLogger);
+    public void log(TlvLogger logger) {
+        log(0, logger);
     }
 
     public static final String space = "    ";

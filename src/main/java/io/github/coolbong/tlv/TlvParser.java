@@ -162,8 +162,8 @@ public class TlvParser {
             while (offset < bufLength) {
                 Tlv child = parse(buf, offset, encoding);
                 if (child == null) {
-                    System.out.println(toHex(bValue));
-                    logger.error("parsed child is null");
+                    //TODO throw exception ?
+                    logger.error("parsed child is null: invalid data: " + toHex(bValue));
                     break;
                 }
                 offset += child.getSize();
