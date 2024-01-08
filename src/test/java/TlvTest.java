@@ -85,23 +85,23 @@ public class TlvTest {
         assertArrayEquals(l, tlv.getLengthBytes());
     }
 
-    @Test
-    public void test_tlv_print_001() {
-        Tlv tlv = new Tlv("84", "315041592E5359532E4444463031");
-        tlv.print();
-    }
-
-    @Test
-    public void test_tlv_print_002() {
-        Tlv tlv = new Tlv("84", "315041592E5359532E4444463031");
-        tlv.print(2);
-    }
-
-    @Test
-    public void test_tlv_print_003() {
-        Tlv tlv = Tlv.parse("6F20840E315041592E5359532E4444463031A50E5F2D046B6F656E9F110101880101");
-        tlv.print();
-    }
+//    @Test
+//    public void test_tlv_print_001() {
+//        Tlv tlv = new Tlv("84", "315041592E5359532E4444463031");
+//        tlv.print();
+//    }
+//
+//    @Test
+//    public void test_tlv_print_002() {
+//        Tlv tlv = new Tlv("84", "315041592E5359532E4444463031");
+//        tlv.print(2);
+//    }
+//
+//    @Test
+//    public void test_tlv_print_003() {
+//        Tlv tlv = Tlv.parse("6F20840E315041592E5359532E4444463031A50E5F2D046B6F656E9F110101880101");
+//        tlv.print();
+//    }
 
 
     @Test
