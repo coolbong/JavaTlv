@@ -4,6 +4,7 @@ import static io.github.coolbong.tlv.Hex.*;
 
 public class TlvParser {
     private final TlvLogger logger;
+
     public TlvParser() {
         logger = new TlvLogger() {
             @Override
@@ -83,7 +84,7 @@ public class TlvParser {
 
         // skip dummy byte (zero byte)
         int skipCount = 0;
-        while(buf[offset] == 0) {
+        while (buf[offset] == 0) {
             offset++;
             skipCount++;
 
@@ -93,16 +94,16 @@ public class TlvParser {
             }
         }
 
-        if (skipCount!= 0) {
+        if (skipCount != 0) {
             //logger.debug("zero dummy data: build Filler bytes offset: {} length: {}", (offset - skipCount), skipCount);
-            logger.debug("[Fil] offset[{}] length[{}]", String.format("%2d",(offset - skipCount)), String.format("%2d", skipCount));
+            logger.debug("[Fil] offset[{}] length[{}]", String.format("%2d", (offset - skipCount)), String.format("%2d", skipCount));
             return new Filler(skipCount);
         }
 
         byte[] bTag;
         bTag = parseTag(buf, offset, encoding);
         boolean isConstructed = ((encoding == Tlv.EMV) && ((bTag[0] & 0x20) == 0x20));
-        logger.debug("[tag] offset[{}] length[{}] Tag:[{}] is constructed: {}", String.format("%2d",offset), String.format("%2d", bTag.length), toHex(bTag), isConstructed);
+        logger.debug("[tag] offset[{}] length[{}] Tag:[{}] is constructed: {}", String.format("%2d", offset), String.format("%2d", bTag.length), toHex(bTag), isConstructed);
 
         offset += bTag.length;
 
@@ -124,7 +125,7 @@ public class TlvParser {
         } else {
             if (buf[offset] == (byte)0xff) { // 3 byte length
                 number_of_bytes = 3;
-                length = Hex.getShort(buf, offset +1);
+                length = Hex.getShort(buf, offset + 1);
                 bLen = Hex.slice(buf, offset, 3); // ff 00 12
             } else { // 1 byte length
                 number_of_bytes = 1;
@@ -133,17 +134,17 @@ public class TlvParser {
                 bLen[0] = buf[offset];
             }
         }
-        logger.debug("[len] offset[{}] length[{}] Len:[{}]({})",String.format("%2d",offset), String.format("%2d", bLen.length), toHex(bLen), length);
+        logger.debug("[len] offset[{}] length[{}] Len:[{}]({})", String.format("%2d", offset), String.format("%2d", bLen.length), toHex(bLen), length);
         offset += number_of_bytes;
 
         if ((offset + length) > buf.length) {
-            logger.error("Invalid Data: value info offset: {} length: {}, (offset + length)[{}] >  buf.length[{}]", offset, length, (offset+length), buf.length);
-            logger.error("Invalid Data: Tag: {} length: {}", toHex(bTag),  toHex(bLen));
+            logger.error("Invalid Data: value info offset: {} length: {}, (offset + length)[{}] >  buf.length[{}]", offset, length, (offset + length), buf.length);
+            logger.error("Invalid Data: Tag: {} length: {}", toHex(bTag), toHex(bLen));
             return null;
         }
 
         byte[] bValue = Hex.slice(buf, offset, length);
-        logger.debug("[val] offset[{}] length[{}] Val:[{}]",String.format("%2d",offset), String.format("%2d", bValue.length), toHex(bValue));
+        logger.debug("[val] offset[{}] length[{}] Val:[{}]", String.format("%2d", offset), String.format("%2d", bValue.length), toHex(bValue));
         //return new Tlv(bTag, bLen, bValue, encoding);
 
         if (isConstructed) {

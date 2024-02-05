@@ -1,8 +1,6 @@
 package io.github.coolbong.tlv;
 
 
-
-
 public interface TlvLogger {
     void debug(String format, Object... args);
 
