@@ -1,5 +1,4 @@
 import io.github.coolbong.tlv.Tlv;
-import logger.ConsoleLogger;
 import org.junit.Test;
 
 import java.util.List;

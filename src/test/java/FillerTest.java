@@ -1,9 +1,7 @@
 import io.github.coolbong.tlv.Tlv;
 import org.junit.Test;
 
-import static io.github.coolbong.tlv.Hex.toBytes;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 public class FillerTest {
 
@@ -15,5 +13,16 @@ public class FillerTest {
         assertEquals(tlv.getTag(), "77");
         assertEquals(tlv.getLength(), 0x0c);
         assertEquals(tlv.getValue(), "000082020880940408010300");
+    }
+
+
+    @Test
+    public void test_filler_002() {
+        String input = "00000082021800";
+        Tlv tlv = Tlv.parse(input);
+
+        assertEquals(tlv.getTag(), "00");
+        assertEquals(tlv.getLength(), 3);
+        assertEquals(tlv.getValue(), "000000");
     }
 }
