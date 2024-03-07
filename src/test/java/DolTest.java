@@ -1,15 +1,12 @@
 import io.github.coolbong.tlv.DolParser;
 import io.github.coolbong.tlv.Tlv;
 import io.github.coolbong.tlv.TlvLogger;
-import io.github.coolbong.tlv.TlvParser;
-import logger.ConsoleLogger;
 import logger.DummyLogger;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class DolTest {

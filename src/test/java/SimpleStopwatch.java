@@ -8,8 +8,8 @@ public class SimpleStopwatch extends Stopwatch {
 
     private static void logInfo(Description description, String status, long nanos) {
         String testName = description.getMethodName();
-        System.out.println(String.format("Test %s %s, spent %d microseconds",
-                testName, status, TimeUnit.NANOSECONDS.toMicros(nanos)));
+        System.out.printf("Test %s %s, spent %d microseconds%n",
+                testName, status, TimeUnit.NANOSECONDS.toMicros(nanos));
     }
 
     @Override

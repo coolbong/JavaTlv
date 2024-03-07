@@ -1,8 +1,6 @@
 import io.github.coolbong.tlv.Tlv;
 import io.github.coolbong.tlv.TlvLogger;
 import io.github.coolbong.tlv.TlvParser;
-import junit.framework.Assert;
-import logger.ConsoleLogger;
 import logger.DummyLogger;
 import org.junit.Before;
 import org.junit.Test;

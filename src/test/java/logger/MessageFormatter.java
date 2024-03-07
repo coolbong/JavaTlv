@@ -120,7 +120,7 @@ final public class MessageFormatter {
      *          The argument to be substituted in place of the formatting anchor
      * @return The formatted message
      */
-    final public static FormattingTuple format(String messagePattern, Object arg) {
+    public static FormattingTuple format(String messagePattern, Object arg) {
         return arrayFormat(messagePattern, new Object[] { arg });
     }
 
@@ -246,19 +246,11 @@ final public class MessageFormatter {
             return false;
         }
         char potentialEscape = messagePattern.charAt(delimeterStartIndex - 1);
-        if (potentialEscape == ESCAPE_CHAR) {
-            return true;
-        } else {
-            return false;
-        }
+        return potentialEscape == ESCAPE_CHAR;
     }
 
     static boolean isDoubleEscaped(String messagePattern, int delimeterStartIndex) {
-        if (delimeterStartIndex >= 2 && messagePattern.charAt(delimeterStartIndex - 2) == ESCAPE_CHAR) {
-            return true;
-        } else {
-            return false;
-        }
+        return delimeterStartIndex >= 2 && messagePattern.charAt(delimeterStartIndex - 2) == ESCAPE_CHAR;
     }
 
     // special treatment of array values was suggested by 'lizongbo'

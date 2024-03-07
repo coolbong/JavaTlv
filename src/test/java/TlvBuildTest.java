@@ -3,7 +3,6 @@ import org.junit.Test;
 
 import static io.github.coolbong.tlv.Hex.toBytes;
 import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNull;
 
 public class TlvBuildTest {
 
@@ -19,6 +18,7 @@ public class TlvBuildTest {
         Tlv tlv3 = new Tlv("9F11", "01");
 
         Tlv tlv4 = new Tlv("A5", tlv1.toString()+tlv2.toString()+tlv3.toString());
+        //Tlv tlv4 = new Tlv("A5", tlv1 + tlv2 + tlv3);
         Tlv tlv = new Tlv("9102", tlv4.toString(), Tlv.DGI);
 
         assertEquals("910210A50E8801015F2D046B6F656E9F110101", tlv.toString());
