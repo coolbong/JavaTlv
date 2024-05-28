@@ -1,6 +1,7 @@
 package io.github.coolbong.tlv;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static io.github.coolbong.tlv.Hex.toBytes;
 import static io.github.coolbong.tlv.Hex.toHex;
@@ -31,11 +32,11 @@ public class DolParser {
         this.logger = logger;
     }
 
-    public ArrayList<Tlv> parse(String dol) {
+    public List<Tlv> parse(String dol) {
         return parse(toBytes(dol), null);
     }
 
-    public ArrayList<Tlv> parse(String dol, String data) {
+    public List<Tlv> parse(String dol, String data) {
         return parse(toBytes(dol), toBytes(data));
     }
 
