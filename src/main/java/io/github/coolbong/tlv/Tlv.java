@@ -11,8 +11,6 @@ public class Tlv {
     public static final int EMV = 0;
     public static final int DGI = 1;
 
-    public static final int FILLER = 99;
-
 
     byte[] bTag;
     byte[] bLen;

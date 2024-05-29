@@ -10,9 +10,9 @@ public class FillerTest {
         String input = "770C000082020880940408010300";
         Tlv tlv = Tlv.parse(input);
 
-        assertEquals(tlv.getTag(), "77");
-        assertEquals(tlv.getLength(), 0x0c);
-        assertEquals(tlv.getValue(), "000082020880940408010300");
+        assertEquals("77", tlv.getTag());
+        assertEquals(0x0c, tlv.getLength());
+        assertEquals("000082020880940408010300", tlv.getValue());
     }
 
 
@@ -21,8 +21,8 @@ public class FillerTest {
         String input = "00000082021800";
         Tlv tlv = Tlv.parse(input);
 
-        assertEquals(tlv.getTag(), "00");
-        assertEquals(tlv.getLength(), 3);
-        assertEquals(tlv.getValue(), "000000");
+        assertEquals("00", tlv.getTag());
+        assertEquals(3, tlv.getLength());
+        assertEquals("000000", tlv.getValue());
     }
 }
