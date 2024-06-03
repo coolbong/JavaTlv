@@ -19,12 +19,12 @@ public class TlvTest {
         };
 
         assertEquals(tlv.toString(), answer);
-        assertEquals(tlv.getTag(), "84");
-        assertEquals(tlv.getLength(), 14);
-        assertEquals(tlv.getValue(), "315041592E5359532E4444463031");
-        assertArrayEquals(tlv.getTagBytes(), tag);
-        assertArrayEquals(tlv.getLengthBytes(), new byte[]{ (byte)0x0e });
-        assertArrayEquals(tlv.getValueBytes(), value);
+        assertEquals("84", tlv.getTag());
+        assertEquals(14, tlv.getLength());
+        assertEquals("315041592E5359532E4444463031", tlv.getValue());
+        assertArrayEquals(tag, tlv.getTagBytes());
+        assertArrayEquals(new byte[]{ (byte)0x0e }, tlv.getLengthBytes());
+        assertArrayEquals(value, tlv.getValueBytes());
     }
 
 
@@ -38,13 +38,13 @@ public class TlvTest {
         Tlv tlv = new Tlv(tag, value);
         String answer = "840E315041592E5359532E4444463031";
 
-        assertEquals(tlv.toString(), answer);
-        assertEquals(tlv.getTag(), "84");
-        assertEquals(tlv.getLength(), 14);
-        assertEquals(tlv.getValue(), "315041592E5359532E4444463031");
-        assertArrayEquals(tlv.getTagBytes(), tag);
-        assertArrayEquals(tlv.getLengthBytes(), new byte[]{ (byte)0x0e });
-        assertArrayEquals(tlv.getValueBytes(), value);
+        assertEquals(answer, tlv.toString());
+        assertEquals("84", tlv.getTag());
+        assertEquals(14, tlv.getLength());
+        assertEquals("315041592E5359532E4444463031", tlv.getValue());
+        assertArrayEquals(tag, tlv.getTagBytes());
+        assertArrayEquals(new byte[]{ (byte)0x0e }, tlv.getLengthBytes());
+        assertArrayEquals(value, tlv.getValueBytes());
     }
 
     @Test
@@ -84,23 +84,6 @@ public class TlvTest {
         assertArrayEquals(l, tlv.getLengthBytes());
     }
 
-//    @Test
-//    public void test_tlv_print_001() {
-//        Tlv tlv = new Tlv("84", "315041592E5359532E4444463031");
-//        tlv.print();
-//    }
-//
-//    @Test
-//    public void test_tlv_print_002() {
-//        Tlv tlv = new Tlv("84", "315041592E5359532E4444463031");
-//        tlv.print(2);
-//    }
-//
-//    @Test
-//    public void test_tlv_print_003() {
-//        Tlv tlv = Tlv.parse("6F20840E315041592E5359532E4444463031A50E5F2D046B6F656E9F110101880101");
-//        tlv.print();
-//    }
 
 
     @Test
@@ -109,9 +92,9 @@ public class TlvTest {
 
         Tlv tlv = Tlv.parse(resp);
 
-        assertEquals(tlv.getTag(), "6F");
-        assertEquals(tlv.getLength(), 32);
-        assertEquals(tlv.getValue(), "840E315041592E5359532E4444463031A50E5F2D046B6F656E9F110101880101");
+        assertEquals("6F", tlv.getTag());
+        assertEquals(32, tlv.getLength());
+        assertEquals("840E315041592E5359532E4444463031A50E5F2D046B6F656E9F110101880101", tlv.getValue());
     }
 
     @Test
@@ -142,7 +125,7 @@ public class TlvTest {
         assertArrayEquals(tlv.getLengthBytes(), new byte[]{0x02});
 
         tlv = Tlv.parse("8281027800");
-        assertArrayEquals(tlv.getLengthBytes(), new byte[]{(byte)0x81, (byte)0x02});
+        assertArrayEquals(new byte[]{(byte)0x81, (byte)0x02}, tlv.getLengthBytes());
         assertEquals("8281027800", tlv.toString());
     }
 
@@ -215,6 +198,7 @@ public class TlvTest {
     public void test_tlv_is_constructed_002() {
         // 1byte tag
         Tlv tlv = Tlv.parse("61094F07A0000000031010");
+
         assertTrue(tlv.isConstructed());
         assertEquals("61", tlv.getTag());
         assertEquals(9, tlv.getLength());
@@ -225,7 +209,7 @@ public class TlvTest {
     public void test_tlv_is_constructed_003() {
         String fci = "6F3B8407A0000008781010A530500B4B4C5343204372656469748701019F38035F2A025F2D046B6F656E9F1101019F12044B4C5343BF0C059F4D02150A";
         Tlv tlv = Tlv.parse(fci);
-        //tlv.print();
+
         assertTrue(tlv.isConstructed());
         assertEquals("6F", tlv.getTag());
         assertEquals(0x3b, tlv.getLength());
@@ -268,19 +252,19 @@ public class TlvTest {
         Tlv child;
 
         child = tlv.find("9f27"); // find cid
-        assertEquals(child.getTag(), "9F27");
-        assertEquals(child.getLength(), 1);
-        assertEquals(child.getValue(), "80");
+        assertEquals("9F27", child.getTag());
+        assertEquals(1, child.getLength());
+        assertEquals("80", child.getValue());
 
         child = tlv.find("9f36"); // find cid
-        assertEquals(child.getTag(), "9F36");
-        assertEquals(child.getLength(), 2);
-        assertEquals(child.getValue(), "0001");
+        assertEquals("9F36", child.getTag());
+        assertEquals(2, child.getLength());
+        assertEquals("0001", child.getValue());
 
         child = tlv.find("9f26"); // find ac
-        assertEquals(child.getTag(), "9F26");
-        assertEquals(child.getLength(), 8);
-        assertEquals(child.getValue(), "CA800E798292C38D");
+        assertEquals("9F26", child.getTag());
+        assertEquals(8, child.getLength());
+        assertEquals("CA800E798292C38D", child.getValue());
     }
 
     @Test
@@ -367,35 +351,12 @@ public class TlvTest {
     }
 
 
-//    @Test
-//    public void test_tlv_log_001() {
-//        ConsoleLogger logger = new ConsoleLogger();
-//
-//        Tlv tlv = Tlv.parse("8281021800");
-//        tlv.log(logger);
-//
-//        tlv = Tlv.parse("6F3B8407A0000008781010A530500B4B4C5343204372656469748701019F38035F2A025F2D046B6F656E9F1101019F12044B4C5343BF0C059F4D02150A");
-//        tlv.log(logger);
-//
-//        tlv = Tlv.parse("770E8202180094080801010018010200");
-//        tlv.log(logger);
-//
-//        tlv = Tlv.parse("703F57139490192619045993D28066011902275500000F5F2014515352422F4449574C20494C4D202020202020209F1F1031393032323030373535303030303030");
-//        tlv.log(logger);
-//
-//        tlv = Tlv.parse("70765A0894901926190459935F3401015F25032307265F24032806305F280204109F0702FF008C1B9F02069F03069F1A0295055F2A029A039C019F37049F35019F34038D0991088A0295059F37048E10000000000000000002011E0302031F009F0E0500100000009F0F05B060FC98009F0D05B060BC8800");
-//        tlv.log(logger);
-//
-//        tlv = Tlv.parse("700A5F300206019F08020001");
-//        tlv.log(logger);
-//    }
 
 
     @Test
     public void test_tlv_gp_get_status() {
         Tlv tlv;
         tlv = new Tlv("20", "DF010100DF020100DF030100DF1104FFFFFFFFDF1204FFFFFFFFDF130400FFFFFF");
-        //tlv.print();
 
         Tlv child = tlv.getChild().get(0);
         assertEquals("DF01", child.getTag());
@@ -403,7 +364,6 @@ public class TlvTest {
         assertEquals("00", child.getValue());
 
         tlv = new Tlv("20", "BF3481A8DF0112000000000000000000000000000038000000DF0212000000000000000000000000000000000000DF0312000000000000000000000000000000000000DF0412000000000000000000000000000000000000DF0512000000000000000000000000000000000000DF0612000000000000000000000000000000000000DF0712000000000000000000000000000000000000DF0812000000000000000000000000000000000000");
-        //tlv.print();
         child = tlv.find("DF01");
         assertEquals("DF01", child.getTag());
         assertEquals(18, child.getLength());

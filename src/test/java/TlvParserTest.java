@@ -1,10 +1,12 @@
 import io.github.coolbong.tlv.Tlv;
 import io.github.coolbong.tlv.TlvLogger;
 import io.github.coolbong.tlv.TlvParser;
+import logger.ConsoleLogger;
 import logger.DummyLogger;
 import org.junit.Before;
 import org.junit.Test;
 
+import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -14,7 +16,8 @@ public class TlvParserTest {
 
     @Before
     public void setUp() {
-         logger = new DummyLogger();
+         //logger = new DummyLogger();
+         logger = new ConsoleLogger();
     }
 
 
@@ -24,6 +27,7 @@ public class TlvParserTest {
         TlvParser parser = new TlvParser(logger);
         Tlv tlv = parser.parse(resp);
         tlv.log(logger);
+        assertNotNull(tlv);
     }
 
     @Test
@@ -32,6 +36,7 @@ public class TlvParserTest {
         TlvParser parser = new TlvParser(logger);
         Tlv tlv = parser.parse(ppse_resp);
         tlv.log(logger);
+        assertNotNull(tlv);
     }
 
     @Test
@@ -40,6 +45,7 @@ public class TlvParserTest {
         TlvParser parser = new TlvParser(logger);
         Tlv tlv = parser.parse(pse_record);
         tlv.log(logger);
+        assertNotNull(tlv);
     }
 
 
@@ -50,6 +56,14 @@ public class TlvParserTest {
 
         Tlv tlv = parser.parse(gpoResp);
         tlv.log(logger);
+        assertEquals("77", tlv.getTag());
+        assertEquals(0x11, tlv.getLength());
+        assertEquals("0000008202180094080801010018010200", tlv.getValue());
+
+        Tlv api = tlv.find("82");
+        assertEquals("82", api.getTag());
+        assertEquals(2, api.getLength());
+        assertEquals("1800", api.getValue());
     }
 
     @Test
@@ -58,6 +72,7 @@ public class TlvParserTest {
         TlvParser parser = new TlvParser(logger);
         Tlv tlv = parser.parse(resp);
         tlv.log(logger);
+        assertEquals("6F", tlv.getTag());
     }
 
     @Test

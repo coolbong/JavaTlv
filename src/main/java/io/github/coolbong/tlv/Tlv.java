@@ -241,7 +241,7 @@ public class Tlv {
     public void print(int indent) {
         StringBuilder tab = new StringBuilder();
         for (int i=0; i<indent; i++) {
-            tab.append(space);
+            tab.append(SPACE);
         }
 
         StringBuilder sb = new StringBuilder();
@@ -262,13 +262,13 @@ public class Tlv {
         log(0, logger);
     }
 
-    public static final String space = "    ";
+    public static final String SPACE = "    ";
     //public static final String space = "\t";
 
     public void log(int indent, TlvLogger logger) {
         StringBuilder tab = new StringBuilder();
         for (int i=0; i<indent; i++) {
-            tab.append(space);
+            tab.append(SPACE);
         }
 
         if (!child.isEmpty()) {
