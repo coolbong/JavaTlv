@@ -58,25 +58,9 @@ public class Tlv {
 
         if (len == null) {
             if (encoding == DGI) {
-                // 3 bytes with the first byte set to 'FF' followed by 2 bytes '0000' to 'FFFE'(0 to 65534)
-                if (length > 254) {
-                    this.bLen = new byte[3];
-                    this.bLen[0] = (byte)0xff;
-                    this.bLen[1] = (byte)((length >> 8) & 0xff);
-                    this.bLen[2] = (byte)length;
-                } else {  //  1 byte in binary format if the length of data is from '00' to 'FE' (0 to 254 bytes)
-                    this.bLen = new byte[1];
-                    this.bLen[0] = (byte)length;
-                }
+                this.bLen = getDgiByteLength(length);
             } else {
-                if (length > 127) {
-                    this.bLen = new byte[2];
-                    this.bLen[0] = (byte)0x81;
-                    this.bLen[1] = (byte)length;
-                } else {
-                    this.bLen = new byte[1];
-                    this.bLen[0] = (byte)length;
-                }
+                this.bLen = getByteLength(length);
             }
         } else {
             this.bLen = len.clone();
@@ -93,6 +77,35 @@ public class Tlv {
                 this.child.add(item);
             }
         }
+    }
+
+    private byte[] getDgiByteLength(int length) {
+        byte[] len;
+        if (length > 127) {
+            // 3 bytes with the first byte set to 'FF' followed by 2 bytes '0000' to 'FFFE'(0 to 65534)
+            len = new byte[3];
+            len[0] = (byte)0xff;
+            len[1] = (byte)((length >> 8) & 0xff);
+            len[2] = (byte)length;
+        } else {
+            //  1 byte in binary format if the length of data is from '00' to 'FE' (0 to 254 bytes)
+            len = new byte[1];
+            len[0] = (byte)length;
+        }
+        return len;
+    }
+
+    private byte[] getByteLength(int length) {
+        byte[] len;
+        if (length > 127) {
+            len = new byte[2];
+            len[0] = (byte)0x81;
+            len[1] = (byte)length;
+        } else {
+            len = new byte[1];
+            len[0] = (byte)length;
+        }
+        return len;
     }
 
     /**
