@@ -85,12 +85,12 @@ public class Tlv {
         if (isConstructed()) {
             int offset = 0;
             while (offset < length) {
-                Tlv child = Tlv.parse(value, offset);
-                if (child == null) {
+                Tlv item = Tlv.parse(value, offset);
+                if (item == null) {
                     break;
                 }
-                offset += child.getSize();
-                this.child.add(child);
+                offset += item.getSize();
+                this.child.add(item);
             }
         }
     }
@@ -160,8 +160,7 @@ public class Tlv {
         Tlv targetTlv = null;
         for (Tlv tlv : child) {
             if (tlv.getTag().equals(targetTag)) {
-                targetTlv = tlv;
-                break;
+                return tlv;
             }
             if (tlv.isConstructed()) {
                 targetTlv = tlv.find(targetTag);
@@ -223,9 +222,9 @@ public class Tlv {
     }
 
     public byte[] toBytes() {
-        int length = bTag.length + bLen.length + bValue.length;
+        int total = bTag.length + bLen.length + bValue.length;
         int offset = 0;
-        byte[] dst = new byte[length];
+        byte[] dst = new byte[total];
         System.arraycopy(bTag, 0, dst, offset, bTag.length);
         offset += bTag.length;
         System.arraycopy(bLen, 0, dst, offset, bLen.length);
@@ -263,7 +262,6 @@ public class Tlv {
     }
 
     public static final String SPACE = "    ";
-    //public static final String space = "\t";
 
     public void log(int indent, TlvLogger logger) {
         StringBuilder tab = new StringBuilder();
@@ -319,14 +317,14 @@ public class Tlv {
 
         int length;
         byte[] bLen;
-        int number_of_bytes;
+        int numberOfBytes;
         if (encoding == Tlv.EMV) {
             if ((buf[offset] & 0x80) == 0x80) {
-                number_of_bytes = (buf[offset] & 0x7F) + 1;
-                length = Hex.toInt(toHex(buf, offset + 1, number_of_bytes - 1));
-                bLen = Hex.slice(buf, offset, number_of_bytes);
+                numberOfBytes = (buf[offset] & 0x7F) + 1;
+                length = Hex.toInt(toHex(buf, offset + 1, numberOfBytes - 1));
+                bLen = Hex.slice(buf, offset, numberOfBytes);
             } else {
-                number_of_bytes = 1;
+                numberOfBytes = 1;
                 length = buf[offset];
                 bLen = new byte[1];
                 bLen[0] = buf[offset];
@@ -334,17 +332,17 @@ public class Tlv {
 
         } else {
             if (buf[offset] == (byte)0xff) { // 3 byte length
-                number_of_bytes = 3;
+                numberOfBytes = 3;
                 length = Hex.getShort(buf, offset +1);
                 bLen = Hex.slice(buf, offset, 3); // ff 00 12
             } else { // 1 byte length
-                number_of_bytes = 1;
+                numberOfBytes = 1;
                 length = buf[offset] & 0xff;
                 bLen = new byte[1];
                 bLen[0] = buf[offset];
             }
         }
-        offset += number_of_bytes;
+        offset += numberOfBytes;
 
         if ((offset + length) > buf.length) {
             System.out.println("Invalid Data");

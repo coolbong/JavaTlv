@@ -294,6 +294,16 @@ public class TlvTest {
     }
 
     @Test
+    public void test_tlv_find_004() {
+        String dummy  = "2006200482021800";
+        Tlv tlv = Tlv.parse(dummy);
+
+        Tlv item = tlv.find("20");
+
+        assertEquals("200482021800", item.toString());
+    }
+
+    @Test
     public void test_tlv_find_all_001() {
         String pseRecord = "703061164F07D410000001501050084E4557204B4C534387010161164F07D410000001101050084F4C44204B4C5343870102";
 
@@ -312,6 +322,8 @@ public class TlvTest {
         assertEquals(22, app2.getLength());
         assertEquals("4F07D410000001101050084F4C44204B4C5343870102", app2.getValue());
     }
+
+
 
 
     @Test
