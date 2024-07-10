@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import static io.github.coolbong.tlv.Hex.toHex;
 
-public class Filler extends Tlv{
+public class Filler extends Tlv {
 
     public Filler(int len) {
 
@@ -16,10 +16,12 @@ public class Filler extends Tlv{
         this.encoding = EMV;
     }
 
+    @Override
     public int getSize() {
         return length;
     }
 
+    @Override
     public String toString() {
         return toHex(bValue);
     }

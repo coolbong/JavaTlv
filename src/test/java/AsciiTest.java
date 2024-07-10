@@ -61,30 +61,6 @@ public class AsciiTest {
     }
 
     @Test
-    public void test_to_ascii_007() {
-        String input = "55424A323147323676322E302E30323430323232";
-        System.out.println(toAscii(input));
-
-        input = "55424A3231473236";
-        System.out.println(toAscii(input));
-
-        input = "76322E302E313233";
-        System.out.println(toAscii(input));
-
-        input = "323430323232";
-        System.out.println(toAscii(input));
-
-        System.out.println(asciiToHex("240515"));
-        System.out.println(asciiToHex("240515"));
-
-        input = "55424A3231473236" + "76322E302E313233" + "323430353135";
-        System.out.println(input);
-
-        System.out.println(toAscii(input));
-    }
-
-
-    @Test
     public void test_ascii_to_hex_001() {
         String input = "hello world";
         String ret = asciiToHex(input);
