@@ -14,14 +14,17 @@ public class DolParser {
         logger = new TlvLogger() {
             @Override
             public void debug(String format, Object... args) {
+                // nothing to do
             }
 
             @Override
             public void warn(String format, Object... args) {
+                // nothing to do
             }
 
             @Override
             public void error(String format, Object... args) {
+                // nothing to do
             }
         };
     }
