@@ -342,7 +342,6 @@ public class Tlv {
                 bLen = new byte[1];
                 bLen[0] = buf[offset];
             }
-
         } else {
             if (buf[offset] == (byte)0xff) { // 3 byte length
                 numberOfBytes = 3;

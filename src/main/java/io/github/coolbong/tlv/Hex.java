@@ -6,6 +6,9 @@ import java.util.Arrays;
 
 public class Hex {
 
+    private Hex() {
+    }
+
     private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
 
     public static String strip(String s) {
@@ -24,24 +27,11 @@ public class Hex {
         decodeHex(s.replaceAll("\\s", "").toCharArray(), bArray, offset);
     }
 
-
-
-//    public static byte[] toBytes2(String hex) {
-//        hex = hex.replaceAll("\\s", "");
-//        int length = hex.length();
-//        if ((length & 1) != 0) {
-//            return null;
-//        }
-//        byte[] dst = new byte[hex.length()/2];
-//
-//
-//    }
-
-
     private static byte[] decodeHex(char[] data) {
         int len = data.length;
         if ((len & 1) != 0) {
-            return null;
+            return new byte[0];
+            //return null;
         } else {
             byte[] out = new byte[len >> 1];
             int i = 0;
@@ -60,8 +50,7 @@ public class Hex {
 
     private static void decodeHex(char[] data, byte[] buffer, int offset) {
         int len = data.length;
-        if ((len & 1) == 0) {
-            if (buffer != null && buffer.length >= len >> 1) {
+        if ((len & 1) == 0 && buffer != null && buffer.length >= len >> 1) {
                 int i = 0;
 
                 for(int j = 0; j < len; ++i) {
@@ -73,7 +62,7 @@ public class Hex {
                 }
 
             }
-        }
+
     }
 
 
@@ -236,7 +225,7 @@ public class Hex {
     }
 
     public static short setShort(byte[] bArray, int bOff, int sValue) {
-        bArray[bOff + 1] = (byte)((sValue & 0xff));
+        bArray[bOff + 1] = (byte)(sValue & 0xff);
         bArray[bOff] = (byte)((sValue >> 8) & 0xff);
         return (short)(bOff + 2);
     }

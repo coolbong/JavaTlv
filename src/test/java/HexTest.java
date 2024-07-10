@@ -182,11 +182,8 @@ public class HexTest {
         // invalid odd hex string
         String input = "1122334";
         byte[] ret = toBytes(input);
-        assertNull(ret);
+        assertArrayEquals(new byte[0], ret);
     }
-
-
-
 
 
 
