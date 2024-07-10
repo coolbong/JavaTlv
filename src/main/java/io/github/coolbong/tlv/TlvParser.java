@@ -9,17 +9,14 @@ public class TlvParser {
         logger = new TlvLogger() {
             @Override
             public void debug(String format, Object... args) {
-                //System.out.println();
             }
 
             @Override
             public void warn(String format, Object... args) {
-                //System.out.println();
             }
 
             @Override
             public void error(String format, Object... args) {
-                //System.out.println();
             }
         };
     }

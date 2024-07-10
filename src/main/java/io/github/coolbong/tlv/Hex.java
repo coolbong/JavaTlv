@@ -20,10 +20,16 @@ public class Hex {
     }
 
     public static byte[] toBytes(String s) {
+        if (s == null) {
+            return new byte[0];
+        }
         return decodeHex(s.replaceAll("\\s", "").toCharArray());
     }
 
     public static void toBytes(String s, byte[] bArray, int offset) {
+        if (s == null || bArray == null) {
+            return;
+        }
         decodeHex(s.replaceAll("\\s", "").toCharArray(), bArray, offset);
     }
 

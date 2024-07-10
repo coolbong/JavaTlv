@@ -1,10 +1,12 @@
 import io.github.coolbong.tlv.DolParser;
 import io.github.coolbong.tlv.Tlv;
 import io.github.coolbong.tlv.TlvLogger;
+import logger.ConsoleLogger;
 import logger.DummyLogger;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -18,6 +20,7 @@ public class DolTest {
     public void setUp() {
         logger = new DummyLogger();
     }
+
 
     @Test
     public void test_dol_test_001() {
@@ -41,7 +44,6 @@ public class DolTest {
         assertEquals(35, length);
 
     }
-
 
     @Test
     public void test_dol_test_003() {
@@ -118,6 +120,109 @@ public class DolTest {
         assertEquals("9B", tlv.getTag());
         assertEquals(2, tlv.getLength());
         assertEquals("0800", tlv.getValue());
+    }
+
+
+    @Test
+    public void test_dol_test_004() {
+        // multi bytes length
+        DolParser parser = new DolParser(logger);
+        List<Tlv> tlvs = parser.parse("828102", "1800");
+        Tlv tlv = tlvs.get(0);
+
+        assertEquals("8281021800", tlv.toString());
+        assertEquals("82", tlv.getTag());
+        assertEquals(2, tlv.getLength());
+        assertEquals("1800", tlv.getValue());
+    }
+
+
+    @Test
+    public void test_dol_test_005() {
+        // multi bytes length
+        DolParser parser = new DolParser(logger);
+        int length = parser.dolRelatedDataLength("828102");
+
+        assertEquals(2, length);
+    }
+
+
+    @Test
+    public void test_dol_test_006() {
+        DolParser parser = new DolParser(logger);
+        // Invalid dol parse have to return empty list
+        List<Tlv> tlvs = parser.parse("8");
+
+        assertEquals(Collections.emptyList(), tlvs);
+    }
+
+    @Test
+    public void test_dol_test_007() {
+        DolParser parser = new DolParser(logger);
+        // Invalid dol parse have to return empty list
+        List<Tlv> tlvs = parser.parse("8", "9");
+
+        assertEquals(Collections.emptyList(), tlvs);
+    }
+
+    @Test
+    public void test_dol_test_008() {
+        // multi bytes length
+        DolParser parser = new DolParser(logger);
+        int length = parser.dolRelatedDataLength("0");
+        assertEquals(0, length);
+    }
+
+    @Test
+    public void test_dol_test_009() {
+        // multi bytes length
+        DolParser parser = new DolParser();
+        int length = parser.dolRelatedDataLength("");
+        assertEquals(0, length);
+    }
+
+
+    @Test
+    public void test_dol_test_010() {
+        // multi bytes length
+        DolParser parser = new DolParser();
+        int length = parser.dolRelatedDataLength("8202");
+        assertEquals(2, length);
+    }
+
+
+
+    @Test
+    public void test_dol_test_011() {
+
+        DolParser parser = new DolParser();
+        List<Tlv> tlvs = parser.parse((byte [])null, (byte [])null);
+
+        assertEquals(Collections.emptyList(), tlvs);
+    }
+
+    @Test
+    public void test_dol_test_012() {
+
+        DolParser parser = new DolParser();
+        List<Tlv> tlvs = parser.parse(new byte[0], new byte[0]);
+
+        assertEquals(Collections.emptyList(), tlvs);
+    }
+
+
+    @Test
+    public void test_dol_test_013() {
+
+        DolParser parser = new DolParser();
+        List<Tlv> tlvs = parser.parse("8202");
+
+        Tlv tlv = tlvs.get(0);
+
+        assertEquals("82020000", tlv.toString());
+        assertEquals("82", tlv.getTag());
+        assertEquals(2, tlv.getLength());
+        assertEquals("0000", tlv.getValue());
     }
 
 }

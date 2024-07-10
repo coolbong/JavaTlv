@@ -14,17 +14,14 @@ public class DolParser {
         logger = new TlvLogger() {
             @Override
             public void debug(String format, Object... args) {
-                // TODO document why this method is empty
             }
 
             @Override
             public void warn(String format, Object... args) {
-
             }
 
             @Override
             public void error(String format, Object... args) {
-
             }
         };
     }
@@ -46,13 +43,8 @@ public class DolParser {
 
         int offset = 0;
 
-        if (dolBuf == null) { // error check
-            logger.error("Invalid argument: buffer is null");
-            return 0;
-        }
-
-        if (dolBuf.length <= offset) { // prevent array out of bound exception
-            logger.error("Invalid argument: offset: {}", offset);
+        if (dolBuf.length == 0) { // error check
+            logger.error("Invalid argument: DOL buffer is null or length == 0");
             return 0;
         }
 
@@ -61,22 +53,6 @@ public class DolParser {
 
         int ret = 0;
         while (offset < dolBuf.length) {
-            // skip dummy byte (zero byte)
-            int skipCount = 0;
-            while (dolBuf[offset] == 0) {
-                offset++;
-                skipCount++;
-
-                if (dolBuf.length <= offset) {
-                    logger.error("Invalid argument: offset: {}", offset);
-                    return 0;
-                }
-            }
-
-            if (skipCount != 0) {
-                logger.debug("skip dummy bytes offset: {} length: {}", (offset - skipCount), skipCount);
-            }
-
             int lengthOfTag = getTagLength(dolBuf, offset);
             logger.debug("[tag] offset[{}] length[{}]", String.format("%2d", offset), String.format("%2d", lengthOfTag));
 
@@ -104,39 +80,21 @@ public class DolParser {
 
         int offset = 0;
         int valueOffset = 0;
-        if (dolBuf == null) { // error check
-            logger.error("Invalid argument: buffer is null");
+
+        if (dolBuf == null || dolBuf.length == 0) { // error check
+            logger.error("Invalid argument: DOL buffer is null or length == 0");
             return Collections.emptyList();
         }
 
         if (dolRelatedDataBuf == null) { // error check
+            logger.warn("DOL related data is null: tlv value set to be 0");
             dolRelatedDataBuf = new byte[0];
-        }
-
-        if (dolBuf.length <= offset) { // prevent array out of bound exception
-            logger.error("Invalid argument: offset: {}", offset);
-            return Collections.emptyList();
         }
 
         logger.debug("start tlv parse ----------------------------------------------------------------------------");
         logger.debug("buffer offset: {} length: {}", offset, dolBuf.length);
 
         while (offset < dolBuf.length) {
-            // skip dummy byte (zero byte)
-            int skipCount = 0;
-            while (dolBuf[offset] == 0) {
-                offset++;
-                skipCount++;
-
-                if (dolBuf.length <= offset) {
-                    logger.error("Invalid argument: offset: {}", offset);
-                    return Collections.emptyList();
-                }
-            }
-
-            if (skipCount != 0) {
-                logger.debug("skip dummy bytes offset: {} length: {}", (offset - skipCount), skipCount);
-            }
 
             byte[] bTag;
             bTag = parseTag(dolBuf, offset);
