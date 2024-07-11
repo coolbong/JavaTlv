@@ -37,7 +37,6 @@ public class Hex {
         int len = data.length;
         if ((len & 1) != 0) {
             return new byte[0];
-            //return null;
         } else {
             byte[] out = new byte[len >> 1];
             int i = 0;
@@ -66,9 +65,7 @@ public class Hex {
                     ++j;
                     buffer[i + offset] = (byte)(f & 255);
                 }
-
             }
-
     }
 
 
@@ -278,13 +275,6 @@ public class Hex {
 
     public static String toVariable(String hex) {
         byte[] arr = toBytes(hex);
-
-
-//        ByteBuffer buffer = ByteBuffer.wrap(arr);
-//        String var = Stream.generate(buffer::get)
-//                .map(b -> "0x" + toHex(b))
-//                .collect(Collectors.joining(", "));
-//        return var;
 
         StringBuilder sb = new StringBuilder();
         for (byte b : arr) {

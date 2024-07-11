@@ -45,7 +45,6 @@ public class TlvParser {
 
         return Hex.slice(buf, offset, length);
     }
-    // TODO  more wrapper api
 
     public Tlv parse(String hex) {
         if (hex == null) {
@@ -90,12 +89,11 @@ public class TlvParser {
 
             if (buf.length <= offset) {
                 logger.warn("Warning: offset is bigger than buffer length: offset: {}", offset);
-                break;//return null;
+                break;
             }
         }
 
         if (skipCount != 0) {
-            //logger.debug("zero dummy data: build Filler bytes offset: {} length: {}", (offset - skipCount), skipCount);
             logger.debug("[Fil] offset[{}] length[{}]", String.format("%2d", (offset - skipCount)), String.format("%2d", skipCount));
             return new Filler(skipCount);
         }
@@ -109,33 +107,32 @@ public class TlvParser {
 
         int length;
         byte[] bLen;
-        int number_of_bytes;
+        int numberOfBytes;
         if (encoding == Tlv.EMV) {
             if ((buf[offset] & 0x80) == 0x80) {
-                number_of_bytes = (buf[offset] & 0x7F) + 1;
-                length = Hex.toInt(toHex(buf, offset + 1, number_of_bytes - 1));
-                bLen = Hex.slice(buf, offset, number_of_bytes);
+                numberOfBytes = (buf[offset] & 0x7F) + 1;
+                length = Hex.toInt(toHex(buf, offset + 1, numberOfBytes - 1));
+                bLen = Hex.slice(buf, offset, numberOfBytes);
             } else {
-                number_of_bytes = 1;
+                numberOfBytes = 1;
                 length = buf[offset];
                 bLen = new byte[1];
                 bLen[0] = buf[offset];
             }
-
         } else {
             if (buf[offset] == (byte)0xff) { // 3 byte length
-                number_of_bytes = 3;
+                numberOfBytes = 3;
                 length = Hex.getShort(buf, offset + 1);
                 bLen = Hex.slice(buf, offset, 3); // ff 00 12
             } else { // 1 byte length
-                number_of_bytes = 1;
+                numberOfBytes = 1;
                 length = buf[offset] & 0xff;
                 bLen = new byte[1];
                 bLen[0] = buf[offset];
             }
         }
         logger.debug("[len] offset[{}] length[{}] Len:[{}]({})", String.format("%2d", offset), String.format("%2d", bLen.length), toHex(bLen), length);
-        offset += number_of_bytes;
+        offset += numberOfBytes;
 
         if ((offset + length) > buf.length) {
             logger.error("Invalid Data: value info offset: {} length: {}, (offset + length)[{}] >  buf.length[{}]", offset, length, (offset + length), buf.length);
@@ -145,7 +142,6 @@ public class TlvParser {
 
         byte[] bValue = Hex.slice(buf, offset, length);
         logger.debug("[val] offset[{}] length[{}] Val:[{}]", String.format("%2d", offset), String.format("%2d", bValue.length), toHex(bValue));
-        //return new Tlv(bTag, bLen, bValue, encoding);
 
         if (isConstructed) {
             Tlv tlv = new Tlv();
@@ -163,7 +159,6 @@ public class TlvParser {
             while (offset < bufLength) {
                 Tlv child = parse(buf, offset, encoding);
                 if (child == null) {
-                    //TODO throw exception ?
                     logger.error("parsed child is null: invalid data: " + toHex(bValue));
                     break;
                 }
@@ -172,7 +167,6 @@ public class TlvParser {
             }
             return tlv;
         } else {
-            //logger.debug("</dgi>");
             return new Tlv(bTag, bLen, bValue, encoding);
         }
     }

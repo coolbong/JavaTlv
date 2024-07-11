@@ -322,7 +322,6 @@ public class Tlv {
             return new Filler(skipCount);
         }
 
-
         byte[] bTag;
         bTag = parseTag(buf, offset, encoding);
 
