@@ -194,10 +194,10 @@ public class HexTest {
 
     @Test
     public void test_to_bytes_008() {
+        byte[] answer = new byte[8];
         byte[] buf = new byte[8];
         toBytes(null, buf, 0);
-
-
+        assertArrayEquals(answer, buf);
     }
 
 }
