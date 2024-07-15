@@ -71,7 +71,7 @@ public class TlvParserTest {
         String resp = "6F448407A0000008781010A539500B4B4C5343204352454449548701015F2D046B6F656E9F1101019F120E4E48204B4C534320435245444954BF0C0A39463444303231353041";
         TlvParser parser = new TlvParser(logger);
         Tlv tlv = parser.parse(resp);
-        tlv.log(logger);
+        //tlv.log(logger);
         assertEquals("6F", tlv.getTag());
     }
 
@@ -80,10 +80,9 @@ public class TlvParserTest {
         String resp = "6F53840E325041592E5359532E4444463031A541BF0C1E611C4F07A0000008781010500E4B4C534320444920435245444954870101BF0C1D611B4F07D4100000014010500D4B4C5343204A5553544F554348870102";
         TlvParser parser = new TlvParser(logger);
         Tlv tlv = parser.parse(resp);
-        tlv.log(logger);
-
-        //Tlv tlv = Tlv.parse(resp);
-        //tlv.print();
+        //tlv.log(logger);
+        assertEquals("6F", tlv.getTag());
+        assertEquals(83, tlv.getLength());
     }
 
     @Test
@@ -91,7 +90,9 @@ public class TlvParserTest {
         String resp = "702057185981786067381230D29125010000000000005F20094B4C53432043415244";
         TlvParser parser = new TlvParser(logger);
         Tlv tlv = parser.parse(resp);
-        tlv.log(logger);
+        //tlv.log(logger);
+        assertEquals("70", tlv.getTag());
+        assertEquals(32, tlv.getLength());
     }
 
     @Test

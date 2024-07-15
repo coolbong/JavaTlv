@@ -14,7 +14,7 @@ public class AsciiTest {
         String hex = "435245444954"; // KLSC DUAL CREDIT
         String answer = "CREDIT";
 
-        String ret = Hex.toAscii(hex);
+        String ret = toAscii(hex);
 
         assertEquals(answer, ret);
     }
@@ -22,14 +22,14 @@ public class AsciiTest {
     @Test
     public void test_to_ascii_002() {
         String hex = "315041592E5359532E4444463031";
-        String ret = Hex.toAscii(hex);
+        String ret = toAscii(hex);
         assertEquals("1PAY.SYS.DDF01", ret);
     }
 
     @Test
     public void test_to_ascii_003() {
         String hex = "325041592E5359532E4444463031";
-        String ret = Hex.toAscii(hex);
+        String ret = toAscii(hex);
         assertEquals("2PAY.SYS.DDF01", ret);
     }
 
@@ -38,7 +38,7 @@ public class AsciiTest {
         String plaintext = "Hello world";
         byte[] arr = plaintext.getBytes(StandardCharsets.UTF_8);
 
-        String ret = Hex.toAscii(arr);
+        String ret = toAscii(arr);
         assertEquals(plaintext, ret);
     }
 
@@ -47,7 +47,7 @@ public class AsciiTest {
     public void test_to_ascii_005() {
         byte[] input = toBytes("404142434445464748494A4B4C4D4E4F");
 
-        String ret = Hex.toAscii(input, 1, 15);
+        String ret = toAscii(input, 1, 15);
         assertEquals("ABCDEFGHIJKLMNO", ret);
     }
 
@@ -59,6 +59,12 @@ public class AsciiTest {
         String ret = toAscii(input);
         assertNotNull(ret);
     }
+
+//    @Test
+//    public void test_to_ascii_007() {
+//        String ret = toAscii("한글");
+//        assertEquals("", ret);
+//    }
 
     @Test
     public void test_ascii_to_hex_001() {
@@ -74,7 +80,5 @@ public class AsciiTest {
         String ret = asciiToHex(input);
         assertEquals("4465626974204D617374657243617264", ret);
     }
-
-
 
 }

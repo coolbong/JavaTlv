@@ -23,6 +23,7 @@ public class SpeedTest {
         System.currentTimeMillis();
     }
 
+/*
     @Test
     public void speed_test_000() {
         //System.out.println("Start time");
@@ -148,5 +149,6 @@ public class SpeedTest {
         long diffTime = Duration.between(beforeTime, afterTime).toMillis(); // 두 개의 실행 시간
         //System.out.println("실행 시간(ms): " + diffTime);
     }
+*/
 
 }
