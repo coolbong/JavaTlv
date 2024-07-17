@@ -39,3 +39,6 @@ build/
 
 ### idea files ###
 .idea
+
+### code coverage report ###
+htmlReport
