@@ -119,7 +119,7 @@ public class Hex {
     }
 
     public static String toHexOld(byte[] buffer, int offset, int length) {
-        char[] hexChars = new char[length * 2];
+        char[] hexChars = new char[length << 1];
 
         for(int j = 0; j < length; ++j) {
             int v = buffer[j + offset] & 255;
@@ -130,7 +130,7 @@ public class Hex {
     }
 
     public static String toHex(byte[] buffer, int offset, int length) {
-        char[] dst   = new char[length * 2];
+        char[] dst   = new char[length << 1];
 
         for (int si = offset, di = 0; si < offset + length; si++) {
             byte b = buffer[si];
@@ -142,7 +142,7 @@ public class Hex {
     }
 
     public static String toHexOld(byte[] bytes) {
-        char[] hexChars = new char[bytes.length * 2];
+        char[] hexChars = new char[bytes.length << 1];
 
         int length = bytes.length;
         for(int j = 0; j < length; ++j) {
@@ -156,7 +156,7 @@ public class Hex {
 
     public static String toHex(byte[] bytes) {
         int length = bytes.length;
-        char[] dst   = new char[length * 2];
+        char[] dst   = new char[length << 1];
 
         for (int si = 0, di = 0; si < length; si++) {
             byte b = bytes[si];
