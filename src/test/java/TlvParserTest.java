@@ -48,6 +48,16 @@ public class TlvParserTest {
         assertNotNull(tlv);
     }
 
+    @Test
+    public void test_tlv_parser_004() {
+        //String part_of_fci = "A50C8801015F2D02656E9F110101";
+        String part_of_fci = "6F20840E315041592E5359532E4444463031A50E8801015F2D046B6F656E9F110101";
+        TlvParser parser = new TlvParser(logger);
+        Tlv tlv = parser.parse(part_of_fci);
+        tlv.log(logger);
+        assertNotNull(tlv);
+    }
+
 
     @Test
     public void test_dummy_bytes_skip_001() {
@@ -144,6 +154,9 @@ public class TlvParserTest {
         assertEquals(0x13, tlv.getLength());
         assertEquals("9409119700015643D49126012000014000000F", tlv.getValue());
     }
+
+
+
 
 
 

@@ -1,9 +1,11 @@
 import io.github.coolbong.tlv.Tlv;
 import io.github.coolbong.tlv.TlvLogger;
 import io.github.coolbong.tlv.TlvParser;
-import logger.DummyLogger;
+import logger.ConsoleLogger;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -14,7 +16,8 @@ public class DgiParseTest {
 
     @Before
     public void setUp() {
-        logger = new DummyLogger();
+        //logger = new DummyLogger();
+        logger = new ConsoleLogger();
     }
 
 
@@ -25,6 +28,39 @@ public class DgiParseTest {
         Tlv tlv = parser.parse(fci);
         tlv.log(logger);
         assertNotNull(tlv);
+    }
+
+    @Test
+    public void tlv_dgi_parse_test_fci_001() {
+        TlvParser parser;
+        Tlv tlv;
+        parser = new TlvParser(logger);
+        tlv = parser.parse("91020EA50C8801015F2D02656E9F110101", Tlv.DGI);
+
+        assertEquals("9102", tlv.getTag());
+        assertEquals(0x0E, tlv.getLength());
+
+        List<Tlv> tlvList = tlv.getChild();
+
+        tlv = tlvList.get(0);
+        assertEquals("A5", tlv.getTag());
+        assertEquals(0x0C, tlv.getLength());
+
+        tlvList = tlv.getChild();
+        tlv = tlvList.get(0);
+        assertEquals("88", tlv.getTag());
+        assertEquals(0x01, tlv.getLength());
+        assertEquals("01", tlv.getValue());
+
+        tlv = tlvList.get(1);
+        assertEquals("5F2D", tlv.getTag());
+        assertEquals(0x02, tlv.getLength());
+        assertEquals("656E", tlv.getValue());
+
+        tlv = tlvList.get(2);
+        assertEquals("9F11", tlv.getTag());
+        assertEquals(0x01, tlv.getLength());
+        assertEquals("01", tlv.getValue());
     }
 
     @Test
