@@ -103,15 +103,14 @@ public class TlvParser {
         boolean isConstructed = ((encoding == Tlv.EMV) && ((bTag[0] & 0x20) == 0x20));
         logger.debug("[tag] offset[{}] length[{}] Tag:[{}] is constructed: {}", String.format("%2d", offset), String.format("%2d", bTag.length), toHex(bTag), isConstructed);
 
-        boolean isConstrutedDgi = false;
+        boolean isConstructedDgi = false;
 
-        if (encoding == Tlv.DGI) {
-            if (((bTag[0] >= 0x01) && (bTag[0] <= 0x0A)) && (bTag[1] >= 0x01)) {
-                isConstrutedDgi = true;
-            } else if ((bTag[0] == (byte)0x91) && (bTag[1] == 0x02)) {
-                isConstrutedDgi = true;
+        if (encoding == Tlv.DGI
+                && ((((bTag[0] >= 0x01) && (bTag[0] <= 0x0A)) && (bTag[1] >= 0x01)) // record
+                || ((bTag[0] == (byte)0x91) && (bTag[1] == 0x02)))) {  // fci
+                isConstructedDgi = true;
             }
-        }
+
 
         offset += bTag.length;
 
@@ -153,7 +152,7 @@ public class TlvParser {
         byte[] bValue = Hex.slice(buf, offset, length);
         logger.debug("[val] offset[{}] length[{}] Val:[{}]", String.format("%2d", offset), String.format("%2d", bValue.length), toHex(bValue));
 
-        if ((isConstructed) || (isConstrutedDgi)) {
+        if ((isConstructed) || (isConstructedDgi)) {
             Tlv tlv = new Tlv();
             tlv.bTag = bTag;
             tlv.bLen = bLen;
