@@ -272,7 +272,6 @@ public class Hex {
         return toHex(bLen) + data;
     }
 
-
     public static String toVariable(String hex) {
         byte[] arr = toBytes(hex);
 
@@ -285,6 +284,15 @@ public class Hex {
 
         return sb.toString();
 
+    }
+
+
+    public static String rpad(String str, Integer length, char ch) {
+        return (String.format("%" + length + "s", "").replace(" ", String.valueOf(ch)) + str).substring(str.length(), length + str.length());
+    }
+
+    public static String lpad(String str, Integer length, char ch) {
+        return (str + String.format("%" + length + "s", "").replace(" ", String.valueOf(ch))).substring(0, length);
     }
 
 }

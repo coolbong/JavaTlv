@@ -200,4 +200,48 @@ public class HexTest {
         assertArrayEquals(answer, buf);
     }
 
+
+    @Test
+    public void test_lpad_001() {
+        String data = "1122";
+        String ret;
+
+        ret = lpad(data, 10, '0');
+        assertEquals("1122000000", ret);
+
+        ret = lpad(data, 10, 'A');
+        assertEquals("1122AAAAAA", ret);
+    }
+
+    @Test
+    public void test_lpad_002() {
+        String data = "1122334455667788";
+        String ret;
+
+        ret = lpad(data, 10, '0');
+        assertEquals("1122334455", ret);
+    }
+
+
+    @Test
+    public void test_rpad_001() {
+        String data = "1122";
+        String ret;
+
+        ret = rpad(data, 10, '0');
+        assertEquals("0000001122", ret);
+
+        ret = rpad(data, 10, 'A');
+        assertEquals("AAAAAA1122", ret);
+    }
+
+    @Test
+    public void test_rpad_002() {
+        String data = "1122334455667788";
+        String ret;
+
+        ret = rpad(data, 10, '0');
+        assertEquals("4455667788", ret);
+    }
+
 }
