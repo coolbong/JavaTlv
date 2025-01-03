@@ -25,3 +25,10 @@ Java tlv parser
 
 
 ```
+
+
+## compile , deploy
+
+mvn clean compile deploy
+https://www.sktenterprise.com/bizInsight/blogDetail/dev/2721
+
