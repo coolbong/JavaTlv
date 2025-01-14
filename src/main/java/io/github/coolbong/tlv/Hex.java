@@ -68,6 +68,15 @@ public class Hex {
             }
     }
 
+//    fun hexStringToByteArray(hex: String): ByteArray {
+//        val cleanedHex = hex.replace("\\s".toRegex(), "")  // 공백 제거
+//        return ByteArray(cleanedHex.length / 2) { i ->
+//            ((Character.digit(cleanedHex[i * 2], 16) shl 4) +
+//                    Character.digit(cleanedHex[i * 2 + 1], 16)).toByte()
+//        }
+//    }
+
+
 
     private static int toDigit(char ch) {
         return Character.digit(ch, 16);

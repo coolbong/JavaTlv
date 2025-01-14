@@ -1,8 +1,11 @@
 import io.github.coolbong.tlv.Tlv;
+import io.github.coolbong.tlv.TlvParser;
 import org.junit.Test;
 
 import java.util.List;
 
+import static io.github.coolbong.tlv.Hex.toBytes;
+import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.*;
 
 public class TlvTest {
@@ -18,7 +21,7 @@ public class TlvTest {
                 (byte)0x2E, (byte)0x44, (byte)0x44, (byte)0x46, (byte)0x30, (byte)0x31
         };
 
-        assertEquals(tlv.toString(), answer);
+        assertEquals(answer, tlv.toString());
         assertEquals("84", tlv.getTag());
         assertEquals(14, tlv.getLength());
         assertEquals("315041592E5359532E4444463031", tlv.getValue());
@@ -84,7 +87,17 @@ public class TlvTest {
         assertArrayEquals(l, tlv.getLengthBytes());
     }
 
+    @Test
+    public void test_tlv_parse_buf_001() {
+        String resp = "6F20840E315041592E5359532E4444463031A50E5F2D046B6F656E9F110101880101";
 
+        Tlv tlv = Tlv.parse(toBytes(resp));
+        assertNotNull(tlv);
+
+        assertEquals("6F", tlv.getTag());
+        assertEquals(32, tlv.getLength());
+        assertEquals("840E315041592E5359532E4444463031A50E5F2D046B6F656E9F110101880101", tlv.getValue());
+    }
 
     @Test
     public void test_tlv_parse_001() {

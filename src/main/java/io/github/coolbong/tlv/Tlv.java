@@ -290,6 +290,9 @@ public class Tlv {
         }
     }
 
+    public static Tlv parse(byte[] buff) {
+        return parse(buff, 0, EMV);
+    }
 
     public static Tlv parse(String data) {
         return parse(Hex.toBytes(data), 0, EMV);
