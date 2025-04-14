@@ -17,6 +17,8 @@ public class Tlv {
     byte[] bValue;
     int length;
 
+    String desc;
+
     int encoding;
 
     ArrayList<Tlv> child;
@@ -151,6 +153,20 @@ public class Tlv {
      */
     public String getValue() {
         return toHex(bValue);
+    }
+
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    /**
+     * Return the Description of the TLV.
+     *
+     * @return the Description of the TLV.
+     */
+    public String getDesc() {
+        return desc;
     }
 
     /**
