@@ -313,7 +313,7 @@ public class TlvTest {
 
         Tlv item = tlv.find("20");
 
-        assertEquals("200482021800", item.toString());
+        assertEquals("2006200482021800", item.toString());
     }
 
     @Test

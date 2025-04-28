@@ -187,6 +187,11 @@ public class Tlv {
         final String targetTag = Hex.strip(tag).toUpperCase();
 
         Tlv targetTlv = null;
+
+        if (getTag().equals(targetTag)) {
+            return this;
+        }
+
         for (Tlv tlv : child) {
             if (tlv.getTag().equals(targetTag)) {
                 return tlv;
