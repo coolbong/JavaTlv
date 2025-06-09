@@ -27,12 +27,12 @@
     <distributionManagement>
         <repository>
             <id>ub-repo-release</id>
-            <url>http://nexus.ubic.com/repository/ub-repo-release/</url>
+            <url>https://icnexus.ubivelox.com/repository/ub-repo-release/</url>
         </repository>
 
         <snapshotRepository>
             <id>ub-repo-snapshot</id>
-            <url>http://nexus.ubic.com/repository/ub-repo-snapshot/</url>
+            <url>https://icnexus.ubivelox.com/repository/ub-repo-snapshot/</url>
         </snapshotRepository>
     </distributionManagement>
 
